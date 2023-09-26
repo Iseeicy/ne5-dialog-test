@@ -1,17 +1,31 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7gu2pm1vmanm"]
+[gd_scene load_steps=9 format=3 uid="uid://c7gu2pm1vmanm"]
 
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_speaker.gd" id="1_7kui1"]
+[ext_resource type="Script" path="res://test_text_reader.gd" id="3_vi2nk"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_reader_settings.gd" id="4_1ysar"]
+[ext_resource type="Resource" uid="uid://718c4m0voxmk" path="res://addons/netengine5/net.bobbo.text-reader/sounds/marvi/marvi.tres" id="5_wmpt0"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_reader.gd" id="8_ueyil"]
 
 [sub_resource type="GDScript" id="GDScript_6gmcd"]
 script/source = "extends RichTextLabel
 
-func _on_text_reader_text_changed(raw_text, stripped_text):
+func _on_text_reader_text_changed(raw_text, _stripped_text):
 	text = raw_text
 
-func _on_text_reader_visible_chars_changed(visible_count, char):
+func _on_text_reader_visible_chars_changed(visible_count, _char):
 	visible_characters = visible_count
 "
+
+[sub_resource type="Resource" id="Resource_7d7bj"]
+script = ExtResource("4_1ysar")
+char_show_delay = 0.03
+punctuation_show_delay = 0.4
+
+[sub_resource type="Resource" id="Resource_7tepr"]
+script = ExtResource("4_1ysar")
+char_show_delay = 0.03
+punctuation_show_delay = 0.4
+sounds = ExtResource("5_wmpt0")
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -71,7 +85,7 @@ script = ExtResource("8_ueyil")
 [node name="TextSpeaker" type="Node" parent="WindowOutline/Contents/MarginContainer/RichTextLabel"]
 script = ExtResource("1_7kui1")
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="LineEditConsole" type="LineEdit" parent="." node_paths=PackedStringArray("text_reader")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -84,9 +98,30 @@ offset_right = 254.5
 offset_bottom = 227.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("3_vi2nk")
+text_reader = NodePath("../WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader")
+settings = SubResource("Resource_7d7bj")
+
+[node name="LineEditMarvi" type="LineEdit" parent="." node_paths=PackedStringArray("text_reader")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -254.5
+offset_top = 237.0
+offset_right = 254.5
+offset_bottom = 313.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_vi2nk")
+text_reader = NodePath("../WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader")
+settings = SubResource("Resource_7tepr")
 
 [connection signal="reading_started" from="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" to="WindowOutline/Contents/MarginContainer/RichTextLabel/TextSpeaker" method="_on_text_reader_reading_started"]
 [connection signal="text_changed" from="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" to="WindowOutline/Contents/MarginContainer/RichTextLabel" method="_on_text_reader_text_changed"]
 [connection signal="visible_chars_changed" from="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" to="WindowOutline/Contents/MarginContainer/RichTextLabel" method="_on_text_reader_visible_chars_changed"]
 [connection signal="visible_chars_changed" from="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" to="WindowOutline/Contents/MarginContainer/RichTextLabel/TextSpeaker" method="_on_text_reader_visible_chars_changed"]
-[connection signal="text_submitted" from="LineEdit" to="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" method="start_reading"]
+[connection signal="text_submitted" from="LineEditConsole" to="LineEditConsole" method="_on_text_submitted"]
+[connection signal="text_submitted" from="LineEditMarvi" to="LineEditMarvi" method="_on_text_submitted"]
