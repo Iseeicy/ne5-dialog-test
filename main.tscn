@@ -1,0 +1,127 @@
+[gd_scene load_steps=13 format=3 uid="uid://c7gu2pm1vmanm"]
+
+[ext_resource type="Script" path="res://dialog_label.gd" id="1_q0f5y"]
+[ext_resource type="Script" path="res://dialog_speaker.gd" id="2_2bvj4"]
+[ext_resource type="AudioStream" uid="uid://otpts5nsveqp" path="res://speech/console/default.wav" id="3_iyuxi"]
+[ext_resource type="AudioStream" uid="uid://cuws2dmwcqguc" path="res://speech/console/period.wav" id="4_kmyja"]
+[ext_resource type="AudioStream" uid="uid://dt70labsslsw5" path="res://speech/console/exclam.wav" id="5_hq1jh"]
+[ext_resource type="AudioStream" uid="uid://xjvy16r6ckfj" path="res://speech/console/comma.wav" id="6_c1xs5"]
+[ext_resource type="AudioStream" uid="uid://ciftcntnl1n2e" path="res://speech/console/question.wav" id="7_mgpcs"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_0jyyy"]
+streams_count = 1
+random_pitch = 1.2
+stream_0/stream = ExtResource("3_iyuxi")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8g54g"]
+streams_count = 1
+stream_0/stream = ExtResource("4_kmyja")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_2get0"]
+streams_count = 1
+random_pitch = 1.2
+stream_0/stream = ExtResource("5_hq1jh")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_om6d3"]
+streams_count = 1
+stream_0/stream = ExtResource("6_c1xs5")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_yrd8g"]
+streams_count = 1
+stream_0/stream = ExtResource("7_mgpcs")
+stream_0/weight = 1.0
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WindowOutline" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -257.0
+offset_right = 256.0
+offset_bottom = 127.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Contents" type="ColorRect" parent="WindowOutline"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.129412, 0.129412, 0.129412, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="WindowOutline/Contents"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="DialogLabel" type="RichTextLabel" parent="WindowOutline/Contents/MarginContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "This is a good bit of text"
+visible_characters_behavior = 1
+script = ExtResource("1_q0f5y")
+
+[node name="DialogSpeaker" type="Node" parent="WindowOutline/Contents/MarginContainer/DialogLabel"]
+script = ExtResource("2_2bvj4")
+
+[node name="Default" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/DialogLabel/DialogSpeaker"]
+stream = SubResource("AudioStreamRandomizer_0jyyy")
+
+[node name="Period" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/DialogLabel/DialogSpeaker"]
+stream = SubResource("AudioStreamRandomizer_8g54g")
+pitch_scale = 0.9
+
+[node name="Exclam" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/DialogLabel/DialogSpeaker"]
+stream = SubResource("AudioStreamRandomizer_2get0")
+
+[node name="Comma" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/DialogLabel/DialogSpeaker"]
+stream = SubResource("AudioStreamRandomizer_om6d3")
+
+[node name="Question" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/DialogLabel/DialogSpeaker"]
+stream = SubResource("AudioStreamRandomizer_yrd8g")
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -254.5
+offset_top = 151.0
+offset_right = 254.5
+offset_bottom = 227.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="new_character_shown" from="WindowOutline/Contents/MarginContainer/DialogLabel" to="WindowOutline/Contents/MarginContainer/DialogLabel/DialogSpeaker" method="_on_dialog_label_new_character_shown"]
+[connection signal="text_started" from="WindowOutline/Contents/MarginContainer/DialogLabel" to="WindowOutline/Contents/MarginContainer/DialogLabel/DialogSpeaker" method="_on_dialog_label_text_started"]
+[connection signal="text_submitted" from="LineEdit" to="WindowOutline/Contents/MarginContainer/DialogLabel" method="start_show_dialog"]
