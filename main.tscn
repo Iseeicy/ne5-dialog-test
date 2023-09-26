@@ -1,12 +1,22 @@
-[gd_scene load_steps=13 format=3 uid="uid://c7gu2pm1vmanm"]
+[gd_scene load_steps=14 format=3 uid="uid://c7gu2pm1vmanm"]
 
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_speaker.gd" id="1_7kui1"]
-[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_reader_label.gd" id="1_s5y61"]
 [ext_resource type="AudioStream" uid="uid://otpts5nsveqp" path="res://speech/console/default.wav" id="3_iyuxi"]
 [ext_resource type="AudioStream" uid="uid://cuws2dmwcqguc" path="res://speech/console/period.wav" id="4_kmyja"]
 [ext_resource type="AudioStream" uid="uid://dt70labsslsw5" path="res://speech/console/exclam.wav" id="5_hq1jh"]
 [ext_resource type="AudioStream" uid="uid://xjvy16r6ckfj" path="res://speech/console/comma.wav" id="6_c1xs5"]
 [ext_resource type="AudioStream" uid="uid://ciftcntnl1n2e" path="res://speech/console/question.wav" id="7_mgpcs"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_reader.gd" id="8_ueyil"]
+
+[sub_resource type="GDScript" id="GDScript_6gmcd"]
+script/source = "extends RichTextLabel
+
+func _on_text_reader_text_changed(raw_text, stripped_text):
+	text = raw_text
+
+func _on_text_reader_visible_chars_changed(visible_count, char):
+	visible_characters = visible_count
+"
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_0jyyy"]
 streams_count = 1
@@ -82,30 +92,34 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="TextReaderLabel" type="RichTextLabel" parent="WindowOutline/Contents/MarginContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="WindowOutline/Contents/MarginContainer"]
 layout_mode = 2
 bbcode_enabled = true
-text = "This is a good bit of text"
-visible_characters_behavior = 1
-script = ExtResource("1_s5y61")
+script = SubResource("GDScript_6gmcd")
 
-[node name="TextSpeaker" type="Node" parent="WindowOutline/Contents/MarginContainer/TextReaderLabel"]
+[node name="TextReader" type="Node" parent="WindowOutline/Contents/MarginContainer/RichTextLabel"]
+script = ExtResource("8_ueyil")
+
+[node name="TextSpeaker" type="Node" parent="WindowOutline/Contents/MarginContainer/RichTextLabel" node_paths=PackedStringArray("audio_origin_node")]
 script = ExtResource("1_7kui1")
+audio_origin_node = NodePath("../AudioOrigin")
 
-[node name="Default" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/TextReaderLabel/TextSpeaker"]
+[node name="AudioOrigin" type="Node" parent="WindowOutline/Contents/MarginContainer/RichTextLabel"]
+
+[node name="Default" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/RichTextLabel/AudioOrigin"]
 stream = SubResource("AudioStreamRandomizer_0jyyy")
 
-[node name="Period" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/TextReaderLabel/TextSpeaker"]
+[node name="Period" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/RichTextLabel/AudioOrigin"]
 stream = SubResource("AudioStreamRandomizer_8g54g")
 pitch_scale = 0.9
 
-[node name="Exclam" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/TextReaderLabel/TextSpeaker"]
+[node name="Exclam" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/RichTextLabel/AudioOrigin"]
 stream = SubResource("AudioStreamRandomizer_2get0")
 
-[node name="Comma" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/TextReaderLabel/TextSpeaker"]
+[node name="Comma" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/RichTextLabel/AudioOrigin"]
 stream = SubResource("AudioStreamRandomizer_om6d3")
 
-[node name="Question" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/TextReaderLabel/TextSpeaker"]
+[node name="Question" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/RichTextLabel/AudioOrigin"]
 stream = SubResource("AudioStreamRandomizer_yrd8g")
 
 [node name="LineEdit" type="LineEdit" parent="."]
@@ -122,6 +136,8 @@ offset_bottom = 227.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[connection signal="new_character_shown" from="WindowOutline/Contents/MarginContainer/TextReaderLabel" to="WindowOutline/Contents/MarginContainer/TextReaderLabel/TextSpeaker" method="_on_text_reader_label_new_character_shown"]
-[connection signal="text_started" from="WindowOutline/Contents/MarginContainer/TextReaderLabel" to="WindowOutline/Contents/MarginContainer/TextReaderLabel/TextSpeaker" method="_on_text_reader_label_text_started"]
-[connection signal="text_submitted" from="LineEdit" to="WindowOutline/Contents/MarginContainer/TextReaderLabel" method="start_show_dialog"]
+[connection signal="reading_started" from="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" to="WindowOutline/Contents/MarginContainer/RichTextLabel/TextSpeaker" method="_on_text_reader_reading_started"]
+[connection signal="text_changed" from="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" to="WindowOutline/Contents/MarginContainer/RichTextLabel" method="_on_text_reader_text_changed"]
+[connection signal="visible_chars_changed" from="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" to="WindowOutline/Contents/MarginContainer/RichTextLabel" method="_on_text_reader_visible_chars_changed"]
+[connection signal="visible_chars_changed" from="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" to="WindowOutline/Contents/MarginContainer/RichTextLabel/TextSpeaker" method="_on_text_reader_visible_chars_changed"]
+[connection signal="text_submitted" from="LineEdit" to="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" method="start_reading"]
