@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://c7gu2pm1vmanm"]
 
-[ext_resource type="Script" path="res://text_reader_label.gd" id="1_qxiby"]
-[ext_resource type="Script" path="res://text_speaker.gd" id="2_hm3kh"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_speaker.gd" id="1_7kui1"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_reader_label.gd" id="1_s5y61"]
 [ext_resource type="AudioStream" uid="uid://otpts5nsveqp" path="res://speech/console/default.wav" id="3_iyuxi"]
 [ext_resource type="AudioStream" uid="uid://cuws2dmwcqguc" path="res://speech/console/period.wav" id="4_kmyja"]
 [ext_resource type="AudioStream" uid="uid://dt70labsslsw5" path="res://speech/console/exclam.wav" id="5_hq1jh"]
@@ -87,10 +87,10 @@ layout_mode = 2
 bbcode_enabled = true
 text = "This is a good bit of text"
 visible_characters_behavior = 1
-script = ExtResource("1_qxiby")
+script = ExtResource("1_s5y61")
 
 [node name="TextSpeaker" type="Node" parent="WindowOutline/Contents/MarginContainer/TextReaderLabel"]
-script = ExtResource("2_hm3kh")
+script = ExtResource("1_7kui1")
 
 [node name="Default" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/TextReaderLabel/TextSpeaker"]
 stream = SubResource("AudioStreamRandomizer_0jyyy")
