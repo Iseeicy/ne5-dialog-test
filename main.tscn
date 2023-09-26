@@ -1,11 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://c7gu2pm1vmanm"]
+[gd_scene load_steps=4 format=3 uid="uid://c7gu2pm1vmanm"]
 
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_speaker.gd" id="1_7kui1"]
-[ext_resource type="AudioStream" uid="uid://otpts5nsveqp" path="res://speech/console/default.wav" id="3_iyuxi"]
-[ext_resource type="AudioStream" uid="uid://cuws2dmwcqguc" path="res://speech/console/period.wav" id="4_kmyja"]
-[ext_resource type="AudioStream" uid="uid://dt70labsslsw5" path="res://speech/console/exclam.wav" id="5_hq1jh"]
-[ext_resource type="AudioStream" uid="uid://xjvy16r6ckfj" path="res://speech/console/comma.wav" id="6_c1xs5"]
-[ext_resource type="AudioStream" uid="uid://ciftcntnl1n2e" path="res://speech/console/question.wav" id="7_mgpcs"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_reader.gd" id="8_ueyil"]
 
 [sub_resource type="GDScript" id="GDScript_6gmcd"]
@@ -17,33 +12,6 @@ func _on_text_reader_text_changed(raw_text, stripped_text):
 func _on_text_reader_visible_chars_changed(visible_count, char):
 	visible_characters = visible_count
 "
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_0jyyy"]
-streams_count = 1
-random_pitch = 1.2
-stream_0/stream = ExtResource("3_iyuxi")
-stream_0/weight = 1.0
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8g54g"]
-streams_count = 1
-stream_0/stream = ExtResource("4_kmyja")
-stream_0/weight = 1.0
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_2get0"]
-streams_count = 1
-random_pitch = 1.2
-stream_0/stream = ExtResource("5_hq1jh")
-stream_0/weight = 1.0
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_om6d3"]
-streams_count = 1
-stream_0/stream = ExtResource("6_c1xs5")
-stream_0/weight = 1.0
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_yrd8g"]
-streams_count = 1
-stream_0/stream = ExtResource("7_mgpcs")
-stream_0/weight = 1.0
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -100,27 +68,8 @@ script = SubResource("GDScript_6gmcd")
 [node name="TextReader" type="Node" parent="WindowOutline/Contents/MarginContainer/RichTextLabel"]
 script = ExtResource("8_ueyil")
 
-[node name="TextSpeaker" type="Node" parent="WindowOutline/Contents/MarginContainer/RichTextLabel" node_paths=PackedStringArray("audio_origin_node")]
+[node name="TextSpeaker" type="Node" parent="WindowOutline/Contents/MarginContainer/RichTextLabel"]
 script = ExtResource("1_7kui1")
-audio_origin_node = NodePath("../AudioOrigin")
-
-[node name="AudioOrigin" type="Node" parent="WindowOutline/Contents/MarginContainer/RichTextLabel"]
-
-[node name="Default" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/RichTextLabel/AudioOrigin"]
-stream = SubResource("AudioStreamRandomizer_0jyyy")
-
-[node name="Period" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/RichTextLabel/AudioOrigin"]
-stream = SubResource("AudioStreamRandomizer_8g54g")
-pitch_scale = 0.9
-
-[node name="Exclam" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/RichTextLabel/AudioOrigin"]
-stream = SubResource("AudioStreamRandomizer_2get0")
-
-[node name="Comma" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/RichTextLabel/AudioOrigin"]
-stream = SubResource("AudioStreamRandomizer_om6d3")
-
-[node name="Question" type="AudioStreamPlayer" parent="WindowOutline/Contents/MarginContainer/RichTextLabel/AudioOrigin"]
-stream = SubResource("AudioStreamRandomizer_yrd8g")
 
 [node name="LineEdit" type="LineEdit" parent="."]
 layout_mode = 1
