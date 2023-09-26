@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://cnwwfnmsoyog1"]
+[gd_scene load_steps=15 format=3 uid="uid://cnwwfnmsoyog1"]
 
 [ext_resource type="Script" path="res://text_window_label.gd" id="1_8v8rh"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/projected_control.gd" id="1_evuwc"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/text_window.gd" id="1_hkumq"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_reader.gd" id="2_arh01"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_speaker.gd" id="3_5cku3"]
@@ -35,25 +36,43 @@ ambient_light_color = Color(0.298039, 0.298039, 0.298039, 1)
 [sub_resource type="GDScript" id="GDScript_lxhd3"]
 script/source = "extends Node
 
+@export var target: Node3D
+@export var projected_control: ProjectedControl
 @export var text_window: TextWindow
+
+func _ready():
+	projected_control.set_focus_target(target)
 "
 
 [node name="TextWindowTest" type="Node3D"]
 
-[node name="TextWindow" type="Control" parent="."]
+[node name="ProjectedControl" type="Control" parent="."]
 layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_evuwc")
+is_sticky = true
+sticky_rotate = NodePath("")
+
+[node name="TextWindow" type="Control" parent="ProjectedControl"]
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -273.0
-offset_right = 620.0
-offset_bottom = -23.0
+offset_left = -300.0
+offset_top = -125.0
+offset_right = 300.0
+offset_bottom = 125.0
 grow_vertical = 0
 script = ExtResource("1_hkumq")
 metadata/_edit_group_ = true
 
-[node name="HeaderLabel" type="RichTextLabel" parent="TextWindow"]
+[node name="HeaderLabel" type="RichTextLabel" parent="ProjectedControl/TextWindow"]
 clip_contents = false
 layout_mode = 1
 offset_left = 10.0
@@ -68,7 +87,7 @@ autowrap_mode = 0
 shortcut_keys_enabled = false
 visible_characters_behavior = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="TextWindow/HeaderLabel"]
+[node name="MarginContainer" type="MarginContainer" parent="ProjectedControl/TextWindow/HeaderLabel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -80,12 +99,12 @@ theme_override_constants/margin_top = -10
 theme_override_constants/margin_right = -10
 theme_override_constants/margin_bottom = -10
 
-[node name="Panel" type="Panel" parent="TextWindow/HeaderLabel/MarginContainer"]
+[node name="Panel" type="Panel" parent="ProjectedControl/TextWindow/HeaderLabel/MarginContainer"]
 z_index = -1
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4gktg")
 
-[node name="Content" type="Panel" parent="TextWindow"]
+[node name="Content" type="Panel" parent="ProjectedControl/TextWindow"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -95,7 +114,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_42e4e")
 
-[node name="TextMargin" type="MarginContainer" parent="TextWindow/Content"]
+[node name="TextMargin" type="MarginContainer" parent="ProjectedControl/TextWindow/Content"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -107,17 +126,17 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="RichTextLabel" type="RichTextLabel" parent="TextWindow/Content/TextMargin"]
+[node name="RichTextLabel" type="RichTextLabel" parent="ProjectedControl/TextWindow/Content/TextMargin"]
 layout_mode = 2
 bbcode_enabled = true
 text = "Hello world!"
 visible_characters_behavior = 1
 script = ExtResource("1_8v8rh")
 
-[node name="TextReader" type="Node" parent="TextWindow"]
+[node name="TextReader" type="Node" parent="ProjectedControl/TextWindow"]
 script = ExtResource("2_arh01")
 
-[node name="TextSpeaker" type="Node" parent="TextWindow"]
+[node name="TextSpeaker" type="Node" parent="ProjectedControl/TextWindow"]
 script = ExtResource("3_5cku3")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
@@ -149,11 +168,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 [node name="MouseFocus" type="Node" parent="."]
 script = ExtResource("5_gkl34")
 
-[node name="TestWindow" type="Node" parent="." node_paths=PackedStringArray("text_window")]
+[node name="TestWindow" type="Node" parent="." node_paths=PackedStringArray("target", "projected_control", "text_window")]
 script = SubResource("GDScript_lxhd3")
-text_window = NodePath("../TextWindow")
+target = NodePath("../FakeThing")
+projected_control = NodePath("../ProjectedControl")
+text_window = NodePath("../ProjectedControl/TextWindow")
 
-[connection signal="reading_started" from="TextWindow/TextReader" to="TextWindow/TextSpeaker" method="_on_text_reader_reading_started"]
-[connection signal="text_changed" from="TextWindow/TextReader" to="TextWindow/Content/TextMargin/RichTextLabel" method="_on_text_reader_text_changed"]
-[connection signal="visible_chars_changed" from="TextWindow/TextReader" to="TextWindow/Content/TextMargin/RichTextLabel" method="_on_text_reader_visible_chars_changed"]
-[connection signal="visible_chars_changed" from="TextWindow/TextReader" to="TextWindow/TextSpeaker" method="_on_text_reader_visible_chars_changed"]
+[connection signal="reading_started" from="ProjectedControl/TextWindow/TextReader" to="ProjectedControl/TextWindow/TextSpeaker" method="_on_text_reader_reading_started"]
+[connection signal="text_changed" from="ProjectedControl/TextWindow/TextReader" to="ProjectedControl/TextWindow/Content/TextMargin/RichTextLabel" method="_on_text_reader_text_changed"]
+[connection signal="visible_chars_changed" from="ProjectedControl/TextWindow/TextReader" to="ProjectedControl/TextWindow/Content/TextMargin/RichTextLabel" method="_on_text_reader_visible_chars_changed"]
+[connection signal="visible_chars_changed" from="ProjectedControl/TextWindow/TextReader" to="ProjectedControl/TextWindow/TextSpeaker" method="_on_text_reader_visible_chars_changed"]
