@@ -1,5 +1,5 @@
 extends Node
-class_name DialogSpeaker
+class_name TextSpeaker
 
 enum SpeakType {
 	None,
@@ -99,11 +99,11 @@ func get_speak_player(type: SpeakType) -> AudioStreamPlayer:
 	
 
 
-# When dialog starts, force a noise
-func _on_dialog_label_text_started(dialog_text: String):
+# When text starts, force a noise
+func _on_text_reader_label_text_started(read_text: String):
 	reset_speak_state()
 	handle_character(' ', true)
 
 # When a new character is shown, eat it and maybe play a noise
-func _on_dialog_label_new_character_shown(char):
+func _on_text_reader_label_new_character_shown(char):
 	handle_character(char)

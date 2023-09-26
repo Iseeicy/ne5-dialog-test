@@ -1,33 +1,41 @@
 extends RichTextLabel
-class_name DialogLabel
+class_name TextReaderLabel
 
 #
 #	Exported
 #
 
+# Emitted when text starts displaying
 signal text_started(dialog_text: String)
+
+# Emitted when text stops displaying for any reason
 signal text_stopped(dialog_text: String)
+
+# Emitted when text stops displaying after getting to the end of the text
 signal text_completed(dialog_text: String)
+
+# Emitted when text stops displaying because `cancel_show_dialog()` was called
 signal text_canceled(dialog_text: String)
+
+# Emitted when text stops displaying because it was fast forwarded to completion
 signal text_fast_forwarded(dialog_text: String)
+
+# Emitted when a new character is displayed while showing text
 signal new_character_shown(char: String)
-@export var display_speed: float = 0
+
+# Values to use when no settings are provided
+@export var default_settings: TextReaderSettings
 
 #
 #	Variables
 #
-
-# How long to wait after displaying a normal character
-const CHAR_DISPLAY_SPEED: float = 0.03
-
-# How long to wait after displaying punctuation
-const CHAR_PUNCTUATION_DISPLAY_SPEED: float = 0.4
 
 var running_sequence: bool = false
 var paused: bool = false
 var max_visible_characters: int = 0
 var time_until_next_char: float = 0
 var previous_char: String = ''
+var current_settings: TextReaderSettings = null
 
 #
 #	Godot Functions
@@ -40,7 +48,7 @@ func _process(delta):
 #	Functions
 #
 
-func start_show_dialog(dialog_text: String) -> void:
+func start_show_dialog(dialog_text: String, settings: TextReaderSettings = null) -> void:
 	if running_sequence:		# If dialog is already showing...
 		cancel_show_dialog()	# ... un-show it
 	
@@ -48,6 +56,14 @@ func start_show_dialog(dialog_text: String) -> void:
 	paused = false			# Make sure we're not paused
 	time_until_next_char = 0
 	previous_char = ''
+	
+	# Check if we need to use default values, then apply the settings
+	if settings == null:
+		if default_settings != null:
+			settings = default_settings
+		else:
+			settings = TextReaderSettings.new()
+	current_settings = settings
 	
 	visible_characters = 0	# Hide all visible text...
 	max_visible_characters = _strip_bbcode(dialog_text).length()
@@ -115,15 +131,15 @@ func _get_char_display_speed(char: String, dialog_text: String, index: int) -> f
 	# If there's multiple characters in a row, then treat this as a normal char
 	if index + 1 < dialog_text.length():
 		if char == dialog_text[index + 1]:
-			return CHAR_DISPLAY_SPEED
+			return current_settings.char_show_delay
 	
 	match char:
 		' ':
 			return 0
 		'.', '!', ',', '?', '-', ':', ';', '\n':
-			return CHAR_PUNCTUATION_DISPLAY_SPEED
+			return current_settings.punctuation_show_delay
 		_:
-			return CHAR_DISPLAY_SPEED
+			return current_settings.char_show_delay
 
 func _strip_bbcode(source: String) -> String:
 	# Thanks to https://github.com/godotengine/godot-proposals/issues/5056#issuecomment-1203033323!
