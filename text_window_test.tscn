@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cnwwfnmsoyog1"]
+[gd_scene load_steps=28 format=3 uid="uid://cnwwfnmsoyog1"]
 
 [ext_resource type="Script" path="res://text_window_label.gd" id="1_8v8rh"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/projected_control.gd" id="1_evuwc"]
@@ -8,6 +8,9 @@
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_speaker.gd" id="3_5cku3"]
 [ext_resource type="PackedScene" uid="uid://b4nwduau6uxjr" path="res://addons/netengine5/net.bobbo.player-controller/player_controller.tscn" id="4_pvpg1"]
 [ext_resource type="Script" path="res://mouse_focus.gd" id="5_gkl34"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.interactable/interactable.gd" id="7_d4bhk"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/projected_control_behaviour_hide.gd" id="8_3v3tg"]
+[ext_resource type="Texture2D" uid="uid://dwd8nevmfgwhw" path="res://sprites/speech_bubble/speech_bubble.png" id="9_qj4wo"]
 
 [sub_resource type="Resource" id="Resource_tb3v5"]
 script = ExtResource("2_urir3")
@@ -38,6 +41,65 @@ size = Vector3(100, 1, 100)
 size = Vector3(100, 1, 100)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cvsqc"]
+
+[sub_resource type="GDScript" id="GDScript_6qro6"]
+script/source = "extends MeshInstance3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	$BubbleOrigin/BubbleIcon.set_focus_target($BubbleOrigin)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_interactable_hover_changed(bool):
+	pass # Replace with function body.
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7knj8"]
+
+[sub_resource type="Resource" id="Resource_ht5v5"]
+script = ExtResource("8_3v3tg")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vssf"]
+atlas = ExtResource("9_qj4wo")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mufy"]
+atlas = ExtResource("9_qj4wo")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkotb"]
+atlas = ExtResource("9_qj4wo")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_54dco"]
+atlas = ExtResource("9_qj4wo")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_usrym"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vssf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mufy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nkotb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_54dco")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="Environment" id="Environment_gthoa"]
 background_mode = 1
@@ -166,13 +228,39 @@ mesh = SubResource("BoxMesh_kllm4")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
 shape = SubResource("BoxShape3D_04jra")
 
-[node name="FakeThing" type="MeshInstance3D" parent="."]
+[node name="FakeNPC" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -11.6998)
 mesh = SubResource("CapsuleMesh_cvsqc")
+script = SubResource("GDScript_6qro6")
 
-[node name="Marker3D" type="Marker3D" parent="FakeThing"]
+[node name="Marker3D" type="Marker3D" parent="FakeNPC"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.412557, 0)
 gizmo_extents = 2.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="FakeNPC"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FakeNPC/StaticBody3D"]
+shape = SubResource("CapsuleShape3D_7knj8")
+
+[node name="Interactable" type="Node" parent="FakeNPC/StaticBody3D"]
+script = ExtResource("7_d4bhk")
+
+[node name="BubbleOrigin" type="Marker3D" parent="FakeNPC"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+
+[node name="BubbleIcon" type="Control" parent="FakeNPC/BubbleOrigin"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_evuwc")
+behaviour = SubResource("Resource_ht5v5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="FakeNPC/BubbleOrigin/BubbleIcon"]
+texture_filter = 1
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_usrym")
+autoplay = "default"
+frame = 2
+frame_progress = 0.563489
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.987615, -0.0317288, -0.153658, 0.1569, 0.199719, 0.96721, 0, -0.979339, 0.202223, -0.694694, 0.583301, 0.56647)
@@ -189,7 +277,7 @@ script = ExtResource("5_gkl34")
 
 [node name="TestWindow" type="Node" parent="." node_paths=PackedStringArray("target", "projected_control", "text_window")]
 script = SubResource("GDScript_lxhd3")
-target = NodePath("../FakeThing/Marker3D")
+target = NodePath("../FakeNPC/Marker3D")
 projected_control = NodePath("../ProjectedControl")
 text_window = NodePath("../ProjectedControl/VBoxContainer/TextWindow")
 
@@ -197,3 +285,4 @@ text_window = NodePath("../ProjectedControl/VBoxContainer/TextWindow")
 [connection signal="text_changed" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/Content/TextMargin/RichTextLabel" method="_on_text_reader_text_changed"]
 [connection signal="visible_chars_changed" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/Content/TextMargin/RichTextLabel" method="_on_text_reader_visible_chars_changed"]
 [connection signal="visible_chars_changed" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/TextSpeaker" method="_on_text_reader_visible_chars_changed"]
+[connection signal="hover_changed" from="FakeNPC/StaticBody3D/Interactable" to="FakeNPC" method="_on_interactable_hover_changed"]

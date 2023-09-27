@@ -25,7 +25,7 @@ project/assembly_name="netengine5 Dialog Test"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/netengine5/net.bobbo.mouse-look-3d/plugin.cfg", "res://addons/netengine5/net.bobbo.player-controller/plugin.cfg", "res://addons/netengine5/net.bobbo.player-model/plugin.cfg", "res://addons/netengine5/net.bobbo.text-reader/plugin.cfg", "res://addons/netengine5/net.bobbo.text-window/plugin.cfg")
+enabled=PackedStringArray("res://addons/netengine5/net.bobbo.interactable/plugin.cfg", "res://addons/netengine5/net.bobbo.mouse-look-3d/plugin.cfg", "res://addons/netengine5/net.bobbo.player-controller/plugin.cfg", "res://addons/netengine5/net.bobbo.player-model/plugin.cfg", "res://addons/netengine5/net.bobbo.text-reader/plugin.cfg", "res://addons/netengine5/net.bobbo.text-window/plugin.cfg")
 
 [input]
 
