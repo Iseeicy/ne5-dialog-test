@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cnwwfnmsoyog1"]
+[gd_scene load_steps=32 format=3 uid="uid://cnwwfnmsoyog1"]
 
 [ext_resource type="Script" path="res://text_window_label.gd" id="1_8v8rh"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/projected_control.gd" id="1_evuwc"]
@@ -11,8 +11,10 @@
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.interactable/interactable.gd" id="7_d4bhk"]
 [ext_resource type="Script" path="res://text_window_state_machine.gd" id="7_lo7w4"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/projected_control_behaviour_hide.gd" id="8_3v3tg"]
-[ext_resource type="Script" path="res://text_window_state.gd" id="8_eekac"]
+[ext_resource type="Script" path="res://states/idle.gd" id="8_qw6ac"]
+[ext_resource type="Script" path="res://states/text.gd" id="9_b0704"]
 [ext_resource type="Texture2D" uid="uid://dwd8nevmfgwhw" path="res://sprites/speech_bubble/speech_bubble.png" id="9_qj4wo"]
+[ext_resource type="Script" path="res://states/choices.gd" id="10_xjyqi"]
 
 [sub_resource type="Resource" id="Resource_tb3v5"]
 script = ExtResource("2_urir3")
@@ -227,13 +229,13 @@ script = ExtResource("7_lo7w4")
 initial_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow/StateMachine"]
-script = ExtResource("8_eekac")
+script = ExtResource("8_qw6ac")
 
 [node name="Text" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow/StateMachine"]
-script = ExtResource("8_eekac")
+script = ExtResource("9_b0704")
 
 [node name="Choices" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow/StateMachine"]
-script = ExtResource("8_eekac")
+script = ExtResource("10_xjyqi")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
