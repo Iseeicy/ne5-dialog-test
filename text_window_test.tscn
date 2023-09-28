@@ -31,9 +31,12 @@ enter_world_curve = 0.2
 bg_color = Color(0.1875, 0.1875, 0.1875, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_42e4e"]
 bg_color = Color(0.188235, 0.188235, 0.188235, 1)
+corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
@@ -157,11 +160,28 @@ size_flags_horizontal = 0
 script = ExtResource("1_hkumq")
 metadata/_edit_group_ = true
 
-[node name="HeaderLabel" type="RichTextLabel" parent="ProjectedControl/VBoxContainer/TextWindow"]
+[node name="UI" type="Control" parent="ProjectedControl/VBoxContainer/TextWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Text" type="Control" parent="ProjectedControl/VBoxContainer/TextWindow/UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeaderLabel" type="RichTextLabel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Text"]
 clip_contents = false
 layout_mode = 1
 offset_left = 10.0
-offset_right = 10.0
+offset_right = 238.0
 offset_bottom = 30.0
 size_flags_horizontal = 3
 bbcode_enabled = true
@@ -172,7 +192,7 @@ autowrap_mode = 0
 shortcut_keys_enabled = false
 visible_characters_behavior = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="ProjectedControl/VBoxContainer/TextWindow/HeaderLabel"]
+[node name="MarginContainer" type="MarginContainer" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Text/HeaderLabel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -184,12 +204,12 @@ theme_override_constants/margin_top = -10
 theme_override_constants/margin_right = -10
 theme_override_constants/margin_bottom = -10
 
-[node name="Panel" type="Panel" parent="ProjectedControl/VBoxContainer/TextWindow/HeaderLabel/MarginContainer"]
+[node name="Panel" type="Panel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Text/HeaderLabel/MarginContainer"]
 z_index = -1
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4gktg")
 
-[node name="Content" type="Panel" parent="ProjectedControl/VBoxContainer/TextWindow"]
+[node name="Content" type="Panel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Text"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -199,7 +219,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_42e4e")
 
-[node name="TextMargin" type="MarginContainer" parent="ProjectedControl/VBoxContainer/TextWindow/Content"]
+[node name="TextMargin" type="MarginContainer" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Text/Content"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -211,7 +231,76 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="RichTextLabel" type="RichTextLabel" parent="ProjectedControl/VBoxContainer/TextWindow/Content/TextMargin"]
+[node name="RichTextLabel" type="RichTextLabel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Text/Content/TextMargin"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Hello world!"
+visible_characters_behavior = 1
+script = ExtResource("1_8v8rh")
+
+[node name="Choices" type="Control" parent="ProjectedControl/VBoxContainer/TextWindow/UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeaderLabel" type="RichTextLabel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Choices"]
+clip_contents = false
+layout_mode = 1
+offset_left = 10.0
+offset_right = 238.0
+offset_bottom = 30.0
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "Wow! This is an interesting UI"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+visible_characters_behavior = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Choices/HeaderLabel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = -10
+theme_override_constants/margin_top = -10
+theme_override_constants/margin_right = -10
+theme_override_constants/margin_bottom = -10
+
+[node name="Panel" type="Panel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Choices/HeaderLabel/MarginContainer"]
+z_index = -1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4gktg")
+
+[node name="Content" type="Panel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Choices"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_42e4e")
+
+[node name="TextMargin" type="MarginContainer" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Choices/Content"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Choices/Content/TextMargin"]
 layout_mode = 2
 bbcode_enabled = true
 text = "Hello world!"
@@ -300,7 +389,7 @@ projected_control = NodePath("../ProjectedControl")
 text_window = NodePath("../ProjectedControl/VBoxContainer/TextWindow")
 
 [connection signal="reading_started" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/TextSpeaker" method="_on_text_reader_reading_started"]
-[connection signal="text_changed" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/Content/TextMargin/RichTextLabel" method="_on_text_reader_text_changed"]
-[connection signal="visible_chars_changed" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/Content/TextMargin/RichTextLabel" method="_on_text_reader_visible_chars_changed"]
+[connection signal="text_changed" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/UI/Text/Content/TextMargin/RichTextLabel" method="_on_text_reader_text_changed"]
+[connection signal="visible_chars_changed" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/UI/Text/Content/TextMargin/RichTextLabel" method="_on_text_reader_visible_chars_changed"]
 [connection signal="visible_chars_changed" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/TextSpeaker" method="_on_text_reader_visible_chars_changed"]
 [connection signal="hover_changed" from="FakeNPC/StaticBody3D/Interactable" to="FakeNPC" method="_on_interactable_hover_changed"]
