@@ -1,0 +1,2 @@
+extends BobboState
+class_name TextWindowState

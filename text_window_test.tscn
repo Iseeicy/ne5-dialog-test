@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cnwwfnmsoyog1"]
+[gd_scene load_steps=30 format=3 uid="uid://cnwwfnmsoyog1"]
 
 [ext_resource type="Script" path="res://text_window_label.gd" id="1_8v8rh"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/projected_control.gd" id="1_evuwc"]
@@ -9,7 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://b4nwduau6uxjr" path="res://addons/netengine5/net.bobbo.player-controller/player_controller.tscn" id="4_pvpg1"]
 [ext_resource type="Script" path="res://mouse_focus.gd" id="5_gkl34"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.interactable/interactable.gd" id="7_d4bhk"]
+[ext_resource type="Script" path="res://text_window_state_machine.gd" id="7_lo7w4"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/projected_control_behaviour_hide.gd" id="8_3v3tg"]
+[ext_resource type="Script" path="res://text_window_state.gd" id="8_eekac"]
 [ext_resource type="Texture2D" uid="uid://dwd8nevmfgwhw" path="res://sprites/speech_bubble/speech_bubble.png" id="9_qj4wo"]
 
 [sub_resource type="Resource" id="Resource_tb3v5"]
@@ -49,6 +51,7 @@ script/source = "extends MeshInstance3D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$BubbleOrigin/BubbleIcon.set_focus_target($BubbleOrigin)
+	$BubbleOrigin/BubbleIcon/AnimatedSprite2D.visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -56,8 +59,8 @@ func _process(delta):
 	pass
 
 
-func _on_interactable_hover_changed(bool):
-	pass # Replace with function body.
+func _on_interactable_hover_changed(is_hovering):
+	$BubbleOrigin/BubbleIcon/AnimatedSprite2D.visible = is_hovering
 "
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7knj8"]
@@ -218,6 +221,19 @@ script = ExtResource("2_arh01")
 
 [node name="TextSpeaker" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow"]
 script = ExtResource("3_5cku3")
+
+[node name="StateMachine" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow"]
+script = ExtResource("7_lo7w4")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow/StateMachine"]
+script = ExtResource("8_eekac")
+
+[node name="Text" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow/StateMachine"]
+script = ExtResource("8_eekac")
+
+[node name="Choices" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow/StateMachine"]
+script = ExtResource("8_eekac")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
