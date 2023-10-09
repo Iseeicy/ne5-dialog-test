@@ -1,31 +1,19 @@
-[gd_scene load_steps=32 format=3 uid="uid://cnwwfnmsoyog1"]
+[gd_scene load_steps=29 format=3 uid="uid://cnwwfnmsoyog1"]
 
 [ext_resource type="Script" path="res://text_window_label.gd" id="1_8v8rh"]
-[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/projected_control.gd" id="1_evuwc"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/distance_fill_projection.gd" id="1_bej3a"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/control_projection.gd" id="1_evuwc"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/text_window.gd" id="1_hkumq"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_reader.gd" id="2_arh01"]
-[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/projected_control_behaviour_fill_when_close.gd" id="2_urir3"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_speaker.gd" id="3_5cku3"]
 [ext_resource type="PackedScene" uid="uid://b4nwduau6uxjr" path="res://addons/netengine5/net.bobbo.player-controller/player_controller.tscn" id="4_pvpg1"]
 [ext_resource type="Script" path="res://mouse_focus.gd" id="5_gkl34"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.interactable/interactable.gd" id="7_d4bhk"]
 [ext_resource type="Script" path="res://text_window_state_machine.gd" id="7_lo7w4"]
-[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/projected_control_behaviour_hide.gd" id="8_3v3tg"]
 [ext_resource type="Script" path="res://states/idle.gd" id="8_qw6ac"]
 [ext_resource type="Script" path="res://states/text.gd" id="9_b0704"]
 [ext_resource type="Texture2D" uid="uid://dwd8nevmfgwhw" path="res://sprites/speech_bubble/speech_bubble.png" id="9_qj4wo"]
 [ext_resource type="Script" path="res://states/choices.gd" id="10_xjyqi"]
-
-[sub_resource type="Resource" id="Resource_tb3v5"]
-script = ExtResource("2_urir3")
-filled_anchor_pos = Vector2(0, 1)
-filled_anchor_offset = Vector2(320, -145)
-closeness_threshold = 4.0
-max_distance = 10.0
-fill_screen_speed = 4.0
-fill_screen_curve = 0.2
-enter_world_speed = 2.0
-enter_world_curve = 0.2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gktg"]
 bg_color = Color(0.1875, 0.1875, 0.1875, 1)
@@ -69,9 +57,6 @@ func _on_interactable_hover_changed(is_hovering):
 "
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7knj8"]
-
-[sub_resource type="Resource" id="Resource_ht5v5"]
-script = ExtResource("8_3v3tg")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5vssf"]
 atlas = ExtResource("9_qj4wo")
@@ -119,7 +104,7 @@ ambient_light_color = Color(0.298039, 0.298039, 0.298039, 1)
 script/source = "extends Node
 
 @export var target: Node3D
-@export var projected_control: ProjectedControl
+@export var projected_control: ControlProjection
 @export var text_window: TextWindow
 
 func _ready():
@@ -128,7 +113,7 @@ func _ready():
 
 [node name="TextWindowTest" type="Node3D"]
 
-[node name="ProjectedControl" type="Control" parent="."]
+[node name="ControlProjection" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -137,10 +122,12 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_evuwc")
-behaviour = SubResource("Resource_tb3v5")
+script = ExtResource("1_bej3a")
+filled_anchor_pos = Vector2(0, 1)
+filled_anchor_offset = Vector2(320, -150)
+max_distance = 10.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ProjectedControl"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlProjection"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -153,14 +140,14 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
 
-[node name="TextWindow" type="Control" parent="ProjectedControl/VBoxContainer"]
+[node name="TextWindow" type="Control" parent="ControlProjection/VBoxContainer"]
 custom_minimum_size = Vector2(600, 250)
 layout_mode = 2
 size_flags_horizontal = 0
 script = ExtResource("1_hkumq")
 metadata/_edit_group_ = true
 
-[node name="UI" type="Control" parent="ProjectedControl/VBoxContainer/TextWindow"]
+[node name="UI" type="Control" parent="ControlProjection/VBoxContainer/TextWindow"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -168,7 +155,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Text" type="Control" parent="ProjectedControl/VBoxContainer/TextWindow/UI"]
+[node name="Text" type="Control" parent="ControlProjection/VBoxContainer/TextWindow/UI"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -177,7 +164,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HeaderLabel" type="RichTextLabel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Text"]
+[node name="HeaderLabel" type="RichTextLabel" parent="ControlProjection/VBoxContainer/TextWindow/UI/Text"]
 clip_contents = false
 layout_mode = 1
 offset_left = 10.0
@@ -192,7 +179,7 @@ autowrap_mode = 0
 shortcut_keys_enabled = false
 visible_characters_behavior = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Text/HeaderLabel"]
+[node name="MarginContainer" type="MarginContainer" parent="ControlProjection/VBoxContainer/TextWindow/UI/Text/HeaderLabel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -204,12 +191,12 @@ theme_override_constants/margin_top = -10
 theme_override_constants/margin_right = -10
 theme_override_constants/margin_bottom = -10
 
-[node name="Panel" type="Panel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Text/HeaderLabel/MarginContainer"]
+[node name="Panel" type="Panel" parent="ControlProjection/VBoxContainer/TextWindow/UI/Text/HeaderLabel/MarginContainer"]
 z_index = -1
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4gktg")
 
-[node name="Content" type="Panel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Text"]
+[node name="Content" type="Panel" parent="ControlProjection/VBoxContainer/TextWindow/UI/Text"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -219,7 +206,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_42e4e")
 
-[node name="TextMargin" type="MarginContainer" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Text/Content"]
+[node name="TextMargin" type="MarginContainer" parent="ControlProjection/VBoxContainer/TextWindow/UI/Text/Content"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -231,14 +218,14 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="RichTextLabel" type="RichTextLabel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Text/Content/TextMargin"]
+[node name="RichTextLabel" type="RichTextLabel" parent="ControlProjection/VBoxContainer/TextWindow/UI/Text/Content/TextMargin"]
 layout_mode = 2
 bbcode_enabled = true
 text = "Hello world!"
 visible_characters_behavior = 1
 script = ExtResource("1_8v8rh")
 
-[node name="Choices" type="Control" parent="ProjectedControl/VBoxContainer/TextWindow/UI"]
+[node name="Choices" type="Control" parent="ControlProjection/VBoxContainer/TextWindow/UI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -246,7 +233,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HeaderLabel" type="RichTextLabel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Choices"]
+[node name="HeaderLabel" type="RichTextLabel" parent="ControlProjection/VBoxContainer/TextWindow/UI/Choices"]
 clip_contents = false
 layout_mode = 1
 offset_left = 10.0
@@ -261,7 +248,7 @@ autowrap_mode = 0
 shortcut_keys_enabled = false
 visible_characters_behavior = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Choices/HeaderLabel"]
+[node name="MarginContainer" type="MarginContainer" parent="ControlProjection/VBoxContainer/TextWindow/UI/Choices/HeaderLabel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -273,12 +260,12 @@ theme_override_constants/margin_top = -10
 theme_override_constants/margin_right = -10
 theme_override_constants/margin_bottom = -10
 
-[node name="Panel" type="Panel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Choices/HeaderLabel/MarginContainer"]
+[node name="Panel" type="Panel" parent="ControlProjection/VBoxContainer/TextWindow/UI/Choices/HeaderLabel/MarginContainer"]
 z_index = -1
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4gktg")
 
-[node name="Content" type="Panel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Choices"]
+[node name="Content" type="Panel" parent="ControlProjection/VBoxContainer/TextWindow/UI/Choices"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -288,7 +275,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_42e4e")
 
-[node name="TextMargin" type="MarginContainer" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Choices/Content"]
+[node name="TextMargin" type="MarginContainer" parent="ControlProjection/VBoxContainer/TextWindow/UI/Choices/Content"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -300,30 +287,30 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="RichTextLabel" type="RichTextLabel" parent="ProjectedControl/VBoxContainer/TextWindow/UI/Choices/Content/TextMargin"]
+[node name="RichTextLabel" type="RichTextLabel" parent="ControlProjection/VBoxContainer/TextWindow/UI/Choices/Content/TextMargin"]
 layout_mode = 2
 bbcode_enabled = true
 text = "Hello world!"
 visible_characters_behavior = 1
 script = ExtResource("1_8v8rh")
 
-[node name="TextReader" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow"]
+[node name="TextReader" type="Node" parent="ControlProjection/VBoxContainer/TextWindow"]
 script = ExtResource("2_arh01")
 
-[node name="TextSpeaker" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow"]
+[node name="TextSpeaker" type="Node" parent="ControlProjection/VBoxContainer/TextWindow"]
 script = ExtResource("3_5cku3")
 
-[node name="StateMachine" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow"]
+[node name="StateMachine" type="Node" parent="ControlProjection/VBoxContainer/TextWindow"]
 script = ExtResource("7_lo7w4")
 initial_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow/StateMachine"]
+[node name="Idle" type="Node" parent="ControlProjection/VBoxContainer/TextWindow/StateMachine"]
 script = ExtResource("8_qw6ac")
 
-[node name="Text" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow/StateMachine"]
+[node name="Text" type="Node" parent="ControlProjection/VBoxContainer/TextWindow/StateMachine"]
 script = ExtResource("9_b0704")
 
-[node name="Choices" type="Node" parent="ProjectedControl/VBoxContainer/TextWindow/StateMachine"]
+[node name="Choices" type="Node" parent="ControlProjection/VBoxContainer/TextWindow/StateMachine"]
 script = ExtResource("10_xjyqi")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
@@ -359,7 +346,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_evuwc")
-behaviour = SubResource("Resource_ht5v5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="FakeNPC/BubbleOrigin/BubbleIcon"]
 texture_filter = 1
@@ -385,11 +371,11 @@ script = ExtResource("5_gkl34")
 [node name="TestWindow" type="Node" parent="." node_paths=PackedStringArray("target", "projected_control", "text_window")]
 script = SubResource("GDScript_lxhd3")
 target = NodePath("../FakeNPC/Marker3D")
-projected_control = NodePath("../ProjectedControl")
-text_window = NodePath("../ProjectedControl/VBoxContainer/TextWindow")
+projected_control = NodePath("../ControlProjection")
+text_window = NodePath("../ControlProjection/VBoxContainer/TextWindow")
 
-[connection signal="reading_started" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/TextSpeaker" method="_on_text_reader_reading_started"]
-[connection signal="text_changed" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/UI/Text/Content/TextMargin/RichTextLabel" method="_on_text_reader_text_changed"]
-[connection signal="visible_chars_changed" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/UI/Text/Content/TextMargin/RichTextLabel" method="_on_text_reader_visible_chars_changed"]
-[connection signal="visible_chars_changed" from="ProjectedControl/VBoxContainer/TextWindow/TextReader" to="ProjectedControl/VBoxContainer/TextWindow/TextSpeaker" method="_on_text_reader_visible_chars_changed"]
+[connection signal="reading_started" from="ControlProjection/VBoxContainer/TextWindow/TextReader" to="ControlProjection/VBoxContainer/TextWindow/TextSpeaker" method="_on_text_reader_reading_started"]
+[connection signal="text_changed" from="ControlProjection/VBoxContainer/TextWindow/TextReader" to="ControlProjection/VBoxContainer/TextWindow/UI/Text/Content/TextMargin/RichTextLabel" method="_on_text_reader_text_changed"]
+[connection signal="visible_chars_changed" from="ControlProjection/VBoxContainer/TextWindow/TextReader" to="ControlProjection/VBoxContainer/TextWindow/UI/Text/Content/TextMargin/RichTextLabel" method="_on_text_reader_visible_chars_changed"]
+[connection signal="visible_chars_changed" from="ControlProjection/VBoxContainer/TextWindow/TextReader" to="ControlProjection/VBoxContainer/TextWindow/TextSpeaker" method="_on_text_reader_visible_chars_changed"]
 [connection signal="hover_changed" from="FakeNPC/StaticBody3D/Interactable" to="FakeNPC" method="_on_interactable_hover_changed"]
