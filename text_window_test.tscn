@@ -47,11 +47,6 @@ func _ready():
 	$BubbleOrigin/BubbleIcon/AnimatedSprite2D.visible = false
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
 func _on_interactable_hover_changed(is_hovering):
 	$BubbleOrigin/BubbleIcon/AnimatedSprite2D.visible = is_hovering
 "
