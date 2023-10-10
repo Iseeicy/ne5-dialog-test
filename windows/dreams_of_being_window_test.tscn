@@ -1,0 +1,106 @@
+[gd_scene load_steps=5 format=3 uid="uid://dx0bl7iah1r44"]
+
+[ext_resource type="PackedScene" uid="uid://c7eoh8t1t7pq6" path="res://windows/dreams_of_being_window.tscn" id="1_w7the"]
+
+[sub_resource type="GDScript" id="GDScript_e6nj2"]
+script/source = "extends Button
+
+@export var window: DreamsOfBeingWindow
+
+func _on_pressed():
+	window.show_dialog(\"VOID\", \"[wave]Hello?[/wave]\\nIs this thing on?\\nI think I can hear you. This is new, though...\")
+"
+
+[sub_resource type="GDScript" id="GDScript_lcrow"]
+script/source = "extends Button
+
+@export var window: DreamsOfBeingWindow
+
+var waiting_on_answer = false
+
+func _on_pressed():
+	var choices: Array[String] = [
+		\"Good answer\",
+		\"Bad answer\",
+		\"Hot answer\"
+	]
+	
+	if not waiting_on_answer:
+		window.choice_selected.connect(_choice_cb.bind())
+		waiting_on_answer = true
+	window.show_choices(choices)
+	
+func _choice_cb(choice_index: int, choice_text: String):
+	match(choice_index):
+		0:
+			window.show_dialog(\"LiLI\", \"good job! that is the correct response!\")
+		1:
+			window.show_dialog(\"LiLI\", \"oh... i am not sure how to respond to this...\")
+		2:
+			window.show_dialog(\"LiLI\", \"...whuh????\\n...!!!!!!!!!!!\")
+	
+	if waiting_on_answer:
+		window.choice_selected.disconnect(_choice_cb.bind())
+		waiting_on_answer = false	
+
+
+func _on_dreams_of_being_window_state_changed(new_state):
+	if waiting_on_answer and new_state != DreamsOfBeingWindow.State.ShowChoices:
+		window.choice_selected.disconnect(_choice_cb.bind())
+		waiting_on_answer = false
+"
+
+[sub_resource type="GDScript" id="GDScript_x8fwn"]
+script/source = "extends Button
+
+@export var window: DreamsOfBeingWindow
+
+func _on_pressed():
+	window.close()
+"
+
+[node name="DreamsOfBeingWindowTest" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DreamsOfBeingWindow" parent="." instance=ExtResource("1_w7the")]
+layout_mode = 1
+
+[node name="ButtonShowDialog" type="Button" parent="." node_paths=PackedStringArray("window")]
+layout_mode = 0
+offset_left = 261.0
+offset_top = 70.0
+offset_right = 400.0
+offset_bottom = 119.0
+text = "Show Dialog"
+script = SubResource("GDScript_e6nj2")
+window = NodePath("../DreamsOfBeingWindow")
+
+[node name="ButtonShowChoices" type="Button" parent="." node_paths=PackedStringArray("window")]
+layout_mode = 0
+offset_left = 466.0
+offset_top = 70.0
+offset_right = 605.0
+offset_bottom = 119.0
+text = "Show Choices"
+script = SubResource("GDScript_lcrow")
+window = NodePath("../DreamsOfBeingWindow")
+
+[node name="ButtonShowClose" type="Button" parent="." node_paths=PackedStringArray("window")]
+layout_mode = 0
+offset_left = 669.0
+offset_top = 76.0
+offset_right = 808.0
+offset_bottom = 125.0
+text = "Close"
+script = SubResource("GDScript_x8fwn")
+window = NodePath("../DreamsOfBeingWindow")
+
+[connection signal="state_changed" from="DreamsOfBeingWindow" to="ButtonShowChoices" method="_on_dreams_of_being_window_state_changed"]
+[connection signal="pressed" from="ButtonShowDialog" to="ButtonShowDialog" method="_on_pressed"]
+[connection signal="pressed" from="ButtonShowChoices" to="ButtonShowChoices" method="_on_pressed"]
+[connection signal="pressed" from="ButtonShowClose" to="ButtonShowClose" method="_on_pressed"]
