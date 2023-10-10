@@ -24,7 +24,6 @@ var name_label: Label
 var dialog_label: RichTextLabel
 var text_reader: TextReader
 var choice_grid: GridContainer
-var choice_buttons: Array[Button]
 
 #
 #	Godot Functions
@@ -37,12 +36,6 @@ func _ready():
 	dialog_label = $ChoiceContainer/MarginContainer/DialogLabel
 	text_reader = $ChoiceContainer/MarginContainer/DialogLabel/TextReader
 	choice_grid = $ChoiceContainer/MarginContainer/ChoiceGrid
-	choice_buttons = [
-		$ChoiceContainer/MarginContainer/ChoiceGrid/Option1Button,
-		$ChoiceContainer/MarginContainer/ChoiceGrid/Option2Button,
-		$ChoiceContainer/MarginContainer/ChoiceGrid/Option3Button,
-		$ChoiceContainer/MarginContainer/ChoiceGrid/Option4Button
-	]
 	
 	close()
 
