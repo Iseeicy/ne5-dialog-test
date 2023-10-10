@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://dmp1ydkjxcqdb"]
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://dmp1ydkjxcqdb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cxiyw"]
 bg_color = Color(0.384314, 0.384314, 0.384314, 1)
@@ -11,6 +11,9 @@ border_width_right = 5
 border_width_bottom = 5
 border_color = Color(0, 0, 0, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tq7vo"]
+bg_color = Color(0.596078, 0.596078, 0.596078, 1)
+
 [resource]
 Button/styles/normal = SubResource("StyleBoxFlat_cxiyw")
 GridContainer/constants/h_separation = 10
@@ -20,3 +23,4 @@ MarginContainer/constants/margin_left = 10
 MarginContainer/constants/margin_right = 10
 MarginContainer/constants/margin_top = 10
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_kcbpt")
+choice/styles/panel = SubResource("StyleBoxFlat_tq7vo")

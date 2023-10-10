@@ -56,44 +56,68 @@ layout_mode = 2
 theme = ExtResource("2_hlk44")
 columns = 2
 
-[node name="Option1Button" type="Button" parent="ChoiceContainer/MarginContainer/ChoiceGrid"]
+[node name="Choice1" type="PanelContainer" parent="ChoiceContainer/MarginContainer/ChoiceGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("2_hlk44")
+theme_type_variation = &"choice"
+
+[node name="Label" type="Label" parent="ChoiceContainer/MarginContainer/ChoiceGrid/Choice1"]
+layout_mode = 2
+size_flags_vertical = 5
 text = "(1)
 Ask for a
 charger"
-clip_text = true
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Option2Button" type="Button" parent="ChoiceContainer/MarginContainer/ChoiceGrid"]
+[node name="Choice2" type="PanelContainer" parent="ChoiceContainer/MarginContainer/ChoiceGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("2_hlk44")
+theme_type_variation = &"choice"
+
+[node name="Label2" type="Label" parent="ChoiceContainer/MarginContainer/ChoiceGrid/Choice2"]
+layout_mode = 2
+size_flags_vertical = 5
 text = "(2)
 Make small
 talk"
-clip_text = true
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Option3Button" type="Button" parent="ChoiceContainer/MarginContainer/ChoiceGrid"]
+[node name="Choice3" type="PanelContainer" parent="ChoiceContainer/MarginContainer/ChoiceGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("2_hlk44")
+theme_type_variation = &"choice"
+
+[node name="Label3" type="Label" parent="ChoiceContainer/MarginContainer/ChoiceGrid/Choice3"]
+layout_mode = 2
+size_flags_vertical = 5
 text = "(3)
 Introduce
 yourself"
-clip_text = true
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Option4Button" type="Button" parent="ChoiceContainer/MarginContainer/ChoiceGrid"]
+[node name="Choice4" type="PanelContainer" parent="ChoiceContainer/MarginContainer/ChoiceGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("2_hlk44")
+theme_type_variation = &"choice"
+
+[node name="Label4" type="Label" parent="ChoiceContainer/MarginContainer/ChoiceGrid/Choice4"]
+layout_mode = 2
+size_flags_vertical = 5
 text = "(4)
 Insult"
-clip_text = true
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="DialogLabel" parent="ChoiceContainer/MarginContainer" instance=ExtResource("3_wvldc")]
 visible = false
