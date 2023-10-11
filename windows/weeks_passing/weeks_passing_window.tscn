@@ -88,8 +88,9 @@ text = "No"
 script = ExtResource("6_ns5ew")
 initial_state = NodePath("Closed")
 
-[node name="Closed" type="Node" parent="StateMachine"]
+[node name="Closed" type="Node" parent="StateMachine" node_paths=PackedStringArray("text_reader")]
 script = ExtResource("7_vtjkc")
+text_reader = NodePath("../../PanelContainer/MarginContainer/VBoxContainer/TextContent/TextReader")
 
 [node name="Open" type="Node" parent="StateMachine"]
 script = ExtResource("8_f4plh")
