@@ -1,10 +1,10 @@
 [gd_scene load_steps=14 format=3 uid="uid://bml148ssngfk1"]
 
-[ext_resource type="PackedScene" uid="uid://doly8ed5ktkyo" path="res://windows/power_saver/power_saver_window.tscn" id="1_ptjjo"]
-[ext_resource type="Script" path="res://example_text_window_driver.gd" id="2_gqy3y"]
+[ext_resource type="PackedScene" uid="uid://doly8ed5ktkyo" path="res://addons/netengine5/net.bobbo.text-window.three-percent-power-saver/window.tscn" id="1_ptjjo"]
+[ext_resource type="Script" path="res://scripts/example_text_window_driver.gd" id="2_gqy3y"]
 [ext_resource type="Resource" uid="uid://jg2gocw2p56f" path="res://example_dialog/basic_sequence.tres" id="3_icbpi"]
 [ext_resource type="Resource" uid="uid://bh6k7syvr2irc" path="res://example_dialog/complex_start.tres" id="4_wvyjr"]
-[ext_resource type="Script" path="res://example_character_target.gd" id="5_dlqlh"]
+[ext_resource type="Script" path="res://scripts/example_character_target.gd" id="5_dlqlh"]
 [ext_resource type="Resource" uid="uid://bde5f5tlsw7st" path="res://characters/console.tres" id="6_xmkrr"]
 [ext_resource type="Resource" uid="uid://d144jtnops0uh" path="res://characters/old_default.tres" id="7_2lb0s"]
 [ext_resource type="Resource" uid="uid://d4gcuus4aegva" path="res://characters/iseeicy.tres" id="8_63jht"]

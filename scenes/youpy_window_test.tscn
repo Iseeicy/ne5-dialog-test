@@ -1,11 +1,11 @@
 [gd_scene load_steps=24 format=3 uid="uid://cnwwfnmsoyog1"]
 
-[ext_resource type="PackedScene" uid="uid://b61qm4pa2ri2" path="res://windows/youpy/youpy_window.tscn" id="1_k7ebc"]
+[ext_resource type="PackedScene" uid="uid://b61qm4pa2ri2" path="res://addons/netengine5/net.bobbo.text-window.you-played-yourself/window.tscn" id="1_k7ebc"]
 [ext_resource type="Resource" uid="uid://bde5f5tlsw7st" path="res://characters/console.tres" id="2_1cyce"]
 [ext_resource type="Resource" uid="uid://d144jtnops0uh" path="res://characters/old_default.tres" id="3_8ly1h"]
 [ext_resource type="Resource" uid="uid://d4gcuus4aegva" path="res://characters/iseeicy.tres" id="4_f8klx"]
 [ext_resource type="PackedScene" uid="uid://b4nwduau6uxjr" path="res://addons/netengine5/net.bobbo.player-controller/player_controller.tscn" id="5_j6sfh"]
-[ext_resource type="Script" path="res://mouse_focus.gd" id="6_hummh"]
+[ext_resource type="Script" path="res://scripts/mouse_focus.gd" id="6_hummh"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.interactable/interactable.gd" id="7_cwh2s"]
 [ext_resource type="Resource" uid="uid://jg2gocw2p56f" path="res://example_dialog/basic_sequence.tres" id="8_he4ko"]
 [ext_resource type="Resource" uid="uid://bh6k7syvr2irc" path="res://example_dialog/complex_start.tres" id="9_vej7i"]

@@ -1,9 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bv8ap4l5yjei4"]
+[gd_scene load_steps=8 format=3 uid="uid://fc7csm45uons"]
 
-[ext_resource type="PackedScene" uid="uid://datg8ahd8chkh" path="res://windows/weeks_passing/weeks_passing_window.tscn" id="1_xyraq"]
-[ext_resource type="Script" path="res://example_text_window_driver.gd" id="2_4l47a"]
-[ext_resource type="Resource" uid="uid://jg2gocw2p56f" path="res://example_dialog/basic_sequence.tres" id="3_qrpgl"]
-[ext_resource type="Resource" uid="uid://bh6k7syvr2irc" path="res://example_dialog/complex_start.tres" id="4_b0ntj"]
+[ext_resource type="PackedScene" uid="uid://c7eoh8t1t7pq6" path="res://addons/netengine5/net.bobbo.text-window.dreams-of-being/window.tscn" id="1_w7the"]
+[ext_resource type="Script" path="res://scripts/example_text_window_driver.gd" id="2_i7mte"]
+[ext_resource type="Resource" uid="uid://jg2gocw2p56f" path="res://example_dialog/basic_sequence.tres" id="3_dk0i1"]
+[ext_resource type="Resource" uid="uid://bh6k7syvr2irc" path="res://example_dialog/complex_start.tres" id="4_45eoc"]
 
 [sub_resource type="GDScript" id="GDScript_fdsm0"]
 script/source = "extends Button
@@ -33,7 +33,7 @@ func _on_pressed():
 	window.close()
 "
 
-[node name="WeeksPassingWindowTest" type="Control"]
+[node name="DreamsOfBeingWindowTest" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,12 +41,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="WeeksPassingWindow" parent="." instance=ExtResource("1_xyraq")]
+[node name="DreamsOfBeingWindow" parent="." instance=ExtResource("1_w7the")]
 layout_mode = 1
 
 [node name="ExampleTextWindowDriver" type="Node" parent="." node_paths=PackedStringArray("window")]
-script = ExtResource("2_4l47a")
-window = NodePath("../WeeksPassingWindow")
+script = ExtResource("2_i7mte")
+window = NodePath("../DreamsOfBeingWindow")
 
 [node name="ButtonShowDialog" type="Button" parent="." node_paths=PackedStringArray("window_driver")]
 layout_mode = 1
@@ -61,7 +61,7 @@ grow_horizontal = 2
 text = "Show Dialog"
 script = SubResource("GDScript_fdsm0")
 window_driver = NodePath("../ExampleTextWindowDriver")
-sequence = ExtResource("3_qrpgl")
+sequence = ExtResource("3_dk0i1")
 
 [node name="ButtonShowDialog2" type="Button" parent="." node_paths=PackedStringArray("window_driver")]
 layout_mode = 1
@@ -76,7 +76,7 @@ grow_horizontal = 2
 text = "Show Dialog Complex"
 script = SubResource("GDScript_fdsm0")
 window_driver = NodePath("../ExampleTextWindowDriver")
-sequence = ExtResource("4_b0ntj")
+sequence = ExtResource("4_45eoc")
 
 [node name="ButtonProgress" type="Button" parent="." node_paths=PackedStringArray("window_driver")]
 layout_mode = 1
@@ -104,7 +104,7 @@ offset_bottom = 315.0
 grow_horizontal = 2
 text = "Close"
 script = SubResource("GDScript_crr62")
-window = NodePath("../WeeksPassingWindow")
+window = NodePath("../DreamsOfBeingWindow")
 
 [connection signal="pressed" from="ButtonShowDialog" to="ButtonShowDialog" method="_on_pressed"]
 [connection signal="pressed" from="ButtonShowDialog2" to="ButtonShowDialog2" method="_on_pressed"]

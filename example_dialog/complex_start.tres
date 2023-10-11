@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="ExampleDialogSequence" load_steps=22 format=3 uid="uid://bh6k7syvr2irc"]
 
-[ext_resource type="Script" path="res://example_dialog_sequence.gd" id="1_id316"]
+[ext_resource type="Script" path="res://scripts/example_dialog_sequence.gd" id="1_id316"]
 [ext_resource type="Resource" uid="uid://d4gcuus4aegva" path="res://characters/iseeicy.tres" id="1_lgxnx"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/text_window_dialog.gd" id="2_548hh"]
-[ext_resource type="Script" path="res://example_dialog_text.gd" id="3_rjyr8"]
+[ext_resource type="Script" path="res://scripts/example_dialog_text.gd" id="3_rjyr8"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/text_window_choice.gd" id="5_12yu6"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/text_window_choice_prompt.gd" id="6_pv77j"]
-[ext_resource type="Script" path="res://example_dialog_choice_prompt.gd" id="7_q6wo0"]
+[ext_resource type="Script" path="res://scripts/example_dialog_choice_prompt.gd" id="7_q6wo0"]
 
 [sub_resource type="Resource" id="Resource_8sa3r"]
 script = ExtResource("2_548hh")
@@ -37,7 +37,7 @@ dialog = SubResource("Resource_uyg4c")
 
 [sub_resource type="Resource" id="Resource_ltl84"]
 script = ExtResource("1_id316")
-elements = Array[Resource("res://example_dialog_element.gd")]([SubResource("Resource_a86qs")])
+elements = Array[Resource("res://scripts/example_dialog_element.gd")]([SubResource("Resource_a86qs")])
 
 [sub_resource type="Resource" id="Resource_p1y6j"]
 script = ExtResource("2_548hh")
@@ -50,7 +50,7 @@ dialog = SubResource("Resource_p1y6j")
 
 [sub_resource type="Resource" id="Resource_y36p2"]
 script = ExtResource("1_id316")
-elements = Array[Resource("res://example_dialog_element.gd")]([SubResource("Resource_lsy6a")])
+elements = Array[Resource("res://scripts/example_dialog_element.gd")]([SubResource("Resource_lsy6a")])
 
 [sub_resource type="Resource" id="Resource_6yug7"]
 script = ExtResource("5_12yu6")
@@ -72,4 +72,4 @@ destinations = Array[ExtResource("1_id316")]([SubResource("Resource_ltl84"), Sub
 
 [resource]
 script = ExtResource("1_id316")
-elements = Array[Resource("res://example_dialog_element.gd")]([SubResource("Resource_mr0uv"), SubResource("Resource_wdivy"), SubResource("Resource_rd8fn")])
+elements = Array[Resource("res://scripts/example_dialog_element.gd")]([SubResource("Resource_mr0uv"), SubResource("Resource_wdivy"), SubResource("Resource_rd8fn")])
