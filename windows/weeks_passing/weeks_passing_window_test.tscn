@@ -1,14 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://bv8ap4l5yjei4"]
+[gd_scene load_steps=6 format=3 uid="uid://bv8ap4l5yjei4"]
 
 [ext_resource type="PackedScene" uid="uid://datg8ahd8chkh" path="res://windows/weeks_passing/weeks_passing_window.tscn" id="1_xyraq"]
+[ext_resource type="Script" path="res://example_text_window_driver.gd" id="2_4l47a"]
+[ext_resource type="Resource" uid="uid://jg2gocw2p56f" path="res://example_dialog/basic_sequence.tres" id="3_qrpgl"]
 
 [sub_resource type="GDScript" id="GDScript_fdsm0"]
 script/source = "extends Button
 
-@export var window: TextWindow
+@export var window_driver: ExampleTextWindowDriver
+@export var sequence: ExampleDialogSequence
 
 func _on_pressed():
-	#window.display_dialog(\"Dev Cuve\", \"Hah! Long time no see, chump. Can you see me?\\n...\\nClearly not. I'm here, though!\")
+	window_driver.show_sequence(sequence)
 "
 
 [sub_resource type="GDScript" id="GDScript_crr62"]
@@ -31,7 +34,11 @@ grow_vertical = 2
 [node name="WeeksPassingWindow" parent="." instance=ExtResource("1_xyraq")]
 layout_mode = 1
 
-[node name="ButtonShowDialog" type="Button" parent="." node_paths=PackedStringArray("window")]
+[node name="ExampleTextWindowDriver" type="Node" parent="." node_paths=PackedStringArray("window")]
+script = ExtResource("2_4l47a")
+window = NodePath("../WeeksPassingWindow")
+
+[node name="ButtonShowDialog" type="Button" parent="." node_paths=PackedStringArray("window_driver")]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -43,7 +50,8 @@ offset_bottom = 194.0
 grow_horizontal = 2
 text = "Show Dialog"
 script = SubResource("GDScript_fdsm0")
-window = NodePath("../WeeksPassingWindow")
+window_driver = NodePath("../ExampleTextWindowDriver")
+sequence = ExtResource("3_qrpgl")
 
 [node name="ButtonShowClose" type="Button" parent="." node_paths=PackedStringArray("window")]
 layout_mode = 1

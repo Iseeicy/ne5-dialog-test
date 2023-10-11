@@ -94,8 +94,10 @@ script = ExtResource("7_vtjkc")
 [node name="Open" type="Node" parent="StateMachine"]
 script = ExtResource("8_f4plh")
 
-[node name="Dialog" type="Node" parent="StateMachine/Open" node_paths=PackedStringArray("text_reader")]
+[node name="Dialog" type="Node" parent="StateMachine/Open" node_paths=PackedStringArray("header_label", "text_content", "text_reader")]
 script = ExtResource("9_twnp7")
+header_label = NodePath("../../../PanelContainer/MarginContainer/VBoxContainer/TextHeader")
+text_content = NodePath("../../../PanelContainer/MarginContainer/VBoxContainer/TextContent")
 text_reader = NodePath("../../../PanelContainer/MarginContainer/VBoxContainer/TextContent/TextReader")
 
 [node name="Showing" type="Node" parent="StateMachine/Open/Dialog"]
@@ -115,5 +117,3 @@ script = ExtResource("10_nppdv")
 [connection signal="text_changed" from="PanelContainer/MarginContainer/VBoxContainer/TextContent/TextReader" to="PanelContainer/MarginContainer/VBoxContainer/TextContent" method="_on_text_reader_text_changed" flags=18]
 [connection signal="visible_chars_changed" from="PanelContainer/MarginContainer/VBoxContainer/TextContent/TextReader" to="PanelContainer/MarginContainer/VBoxContainer/TextContent" method="_on_text_reader_visible_chars_changed" flags=18]
 [connection signal="visible_chars_changed" from="PanelContainer/MarginContainer/VBoxContainer/TextContent/TextReader" to="PanelContainer/MarginContainer/VBoxContainer/TextContent/TextSpeaker" method="_on_text_reader_visible_chars_changed" flags=18]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/LeftButton" to="." method="_on_left_button_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/RightButton" to="." method="_on_right_button_pressed"]
