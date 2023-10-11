@@ -114,3 +114,4 @@ text_reader = NodePath("../../../PanelContainer/MarginContainer/VBoxContainer/Te
 [connection signal="text_changed" from="PanelContainer/MarginContainer/VBoxContainer/TextContent/TextReader" to="PanelContainer/MarginContainer/VBoxContainer/TextContent" method="_on_text_reader_text_changed" flags=18]
 [connection signal="visible_chars_changed" from="PanelContainer/MarginContainer/VBoxContainer/TextContent/TextReader" to="PanelContainer/MarginContainer/VBoxContainer/TextContent" method="_on_text_reader_visible_chars_changed" flags=18]
 [connection signal="visible_chars_changed" from="PanelContainer/MarginContainer/VBoxContainer/TextContent/TextReader" to="PanelContainer/MarginContainer/VBoxContainer/TextContent/TextSpeaker" method="_on_text_reader_visible_chars_changed" flags=18]
+[connection signal="transitioned" from="StateMachine" to="." method="_on_state_machine_transitioned"]

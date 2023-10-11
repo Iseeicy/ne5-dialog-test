@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cnwwfnmsoyog1"]
+[gd_scene load_steps=28 format=3 uid="uid://cnwwfnmsoyog1"]
 
 [ext_resource type="Script" path="res://text_window_label.gd" id="1_8v8rh"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/distance_fill_projection.gd" id="1_bej3a"]
@@ -36,20 +36,6 @@ size = Vector3(100, 1, 100)
 size = Vector3(100, 1, 100)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cvsqc"]
-
-[sub_resource type="GDScript" id="GDScript_6qro6"]
-script/source = "extends MeshInstance3D
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	$BubbleOrigin/BubbleIcon.set_focus_target($BubbleOrigin)
-	$BubbleOrigin/BubbleIcon/AnimatedSprite2D.visible = false
-
-
-func _on_interactable_hover_changed(is_hovering):
-	$BubbleOrigin/BubbleIcon/AnimatedSprite2D.visible = is_hovering
-"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7knj8"]
 
@@ -102,8 +88,8 @@ script/source = "extends Node
 @export var projected_control: ControlProjection
 @export var text_window: TextWindow
 
-func _ready():
-	projected_control.set_focus_target(target)
+func _process(delta):
+	projected_control.set_focus_position(target.global_position)
 "
 
 [node name="TextWindowTest" type="Node3D"]
@@ -320,7 +306,6 @@ shape = SubResource("BoxShape3D_04jra")
 [node name="FakeNPC" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -11.6998)
 mesh = SubResource("CapsuleMesh_cvsqc")
-script = SubResource("GDScript_6qro6")
 
 [node name="Marker3D" type="Marker3D" parent="FakeNPC"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.412557, 0)

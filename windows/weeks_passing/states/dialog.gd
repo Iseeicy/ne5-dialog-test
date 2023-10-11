@@ -6,7 +6,7 @@ extends TextWindowState
 
 @export_group("Required References")
 @export var header_container: Control
-@export var header_label: RichTextLabel
+@export var header_label: Control
 @export var text_content: Control
 @export var text_reader: TextReader
 

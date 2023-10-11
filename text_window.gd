@@ -4,7 +4,7 @@ class_name TextWindow
 #
 #	Exported
 #
-
+signal state_changed(state: TextWindowState, path: String)
 signal dialog_shown(dialog: TextWindowDialog)
 signal choice_prompt_shown(prompt: TextWindowChoicePrompt)
 signal choice_hovered(index: int, prompt: TextWindowChoicePrompt)
@@ -65,3 +65,13 @@ func confirm_choice(choice_index: int) -> bool:
 	
 func close() -> void:
 	closed.emit()
+	
+func get_state() -> TextWindowState:
+	return _state_machine.state
+
+#
+#	Signals
+#
+
+func _on_state_machine_transitioned(state, path):
+	state_changed.emit(state, path)

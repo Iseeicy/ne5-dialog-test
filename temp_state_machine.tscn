@@ -1,0 +1,39 @@
+[gd_scene load_steps=9 format=3 uid="uid://6sqk6nnbmprc"]
+
+[ext_resource type="Script" path="res://text_window_state_machine.gd" id="1_y34hk"]
+[ext_resource type="Script" path="res://windows/weeks_passing/states/closed.gd" id="2_tk8va"]
+[ext_resource type="Script" path="res://windows/weeks_passing/states/open.gd" id="3_pncar"]
+[ext_resource type="Script" path="res://windows/weeks_passing/states/dialog.gd" id="4_lpkn1"]
+[ext_resource type="Script" path="res://windows/weeks_passing/states/showing.gd" id="5_x83t8"]
+[ext_resource type="Script" path="res://windows/weeks_passing/states/shown.gd" id="6_gq06b"]
+[ext_resource type="Script" path="res://windows/weeks_passing/states/choices.gd" id="7_kr7bm"]
+[ext_resource type="PackedScene" uid="uid://ceyek4s0m7tm0" path="res://windows/weeks_passing/wp_button.tscn" id="8_xxwi7"]
+
+[node name="StateMachine" type="Node"]
+script = ExtResource("1_y34hk")
+initial_state = NodePath("Closed")
+
+[node name="Closed" type="Node" parent="." node_paths=PackedStringArray("text_reader")]
+script = ExtResource("2_tk8va")
+text_reader = NodePath("")
+
+[node name="Open" type="Node" parent="."]
+script = ExtResource("3_pncar")
+
+[node name="Dialog" type="Node" parent="Open" node_paths=PackedStringArray("header_label", "text_content", "text_reader")]
+script = ExtResource("4_lpkn1")
+header_label = NodePath("")
+text_content = NodePath("")
+text_reader = NodePath("")
+
+[node name="Showing" type="Node" parent="Open/Dialog"]
+script = ExtResource("5_x83t8")
+
+[node name="Shown" type="Node" parent="Open/Dialog"]
+script = ExtResource("6_gq06b")
+
+[node name="Choices" type="Node" parent="Open" node_paths=PackedStringArray("choice_container", "text_reader")]
+script = ExtResource("7_kr7bm")
+choice_button_scene = ExtResource("8_xxwi7")
+choice_container = NodePath("")
+text_reader = NodePath("")

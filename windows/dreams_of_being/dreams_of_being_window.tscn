@@ -221,5 +221,6 @@ text_reader = NodePath("../../../VBoxContainer/ContentsContainer/DialogContents/
 [connection signal="fast_forwarded" from="." to="StateMachine/Open/Dialog/Showing" method="_on_text_window_fast_forwarded"]
 [connection signal="reading_finished" from="VBoxContainer/ContentsContainer/DialogContents/MarginContainer/TextReaderLabel/TextReader" to="VBoxContainer/ContentsContainer/DialogContents/FinishIndicator" method="_on_text_reader_reading_finished"]
 [connection signal="reading_started" from="VBoxContainer/ContentsContainer/DialogContents/MarginContainer/TextReaderLabel/TextReader" to="VBoxContainer/ContentsContainer/DialogContents/FinishIndicator" method="_on_text_reader_reading_started"]
+[connection signal="transitioned" from="StateMachine" to="." method="_on_state_machine_transitioned"]
 
 [editable path="VBoxContainer/ContentsContainer/DialogContents/MarginContainer/TextReaderLabel"]

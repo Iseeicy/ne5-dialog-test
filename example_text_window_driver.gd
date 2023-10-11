@@ -37,6 +37,9 @@ func progress() -> bool:
 	_next_element()
 	return true
 	
+func select_choice(choice_index: int) -> void:
+	window.confirm_choice(choice_index)
+	
 func close() -> void:
 	_current_sequence = null
 	_sequence_index = -1

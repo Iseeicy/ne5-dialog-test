@@ -66,8 +66,14 @@ func _spawn_choice_buttons(prompt: TextWindowChoicePrompt):
 		# Spawn a choice button for each choice
 		var new_button = _add_new_button()
 		
+		# Apply metadata
+		new_button.set_meta("prompt", prompt)
+		new_button.set_meta("choice", choice)
+		new_button.set_meta("choice_index", index)
+		
 		# Update the button's visuals
-		new_button.text = choice.text
+		if 'text' in new_button:
+			new_button.text = choice.text
 		
 		# Connect the button's signals
 		_create_button_signals(new_button, index)
@@ -86,9 +92,12 @@ func _create_button_signals(button: Control, index: int) -> void:
 	var on_press_func = func():
 		text_window.confirm_choice(index)
 	
-	button.focus_entered.connect(on_hover_func.bind())
-	button.mouse_entered.connect(on_hover_func.bind())
-	button.pressed.connect(on_press_func.bind())
+	if 'focus_entered' in button:
+		button.focus_entered.connect(on_hover_func.bind())
+	if 'mouse_entered' in button:
+		button.mouse_entered.connect(on_hover_func.bind())
+	if 'pressed' in button:
+		button.pressed.connect(on_press_func.bind())
 
 #
 #	Signals
