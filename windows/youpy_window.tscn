@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://dssdg2aa3llyp"]
+[gd_scene load_steps=8 format=3 uid="uid://b61qm4pa2ri2"]
 
-[ext_resource type="Theme" uid="uid://dyf00q5asj563" path="res://windows/youpy_theme.tres" id="1_124aw"]
+[ext_resource type="Theme" uid="uid://gk51jb1niqbd" path="res://windows/youpy_theme.tres" id="1_124aw"]
 [ext_resource type="Script" path="res://windows/youpy_finish_indicator.gd" id="3_xhig0"]
 [ext_resource type="PackedScene" uid="uid://ghb87k7v67ts" path="res://addons/netengine5/net.bobbo.text-reader/examples/text_reader_label.tscn" id="4_3xlqq"]
 

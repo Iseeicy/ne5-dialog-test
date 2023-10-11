@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="ExampleDialogSequence" load_steps=14 format=3 uid="uid://jg2gocw2p56f"]
+
+[ext_resource type="Resource" uid="uid://bde5f5tlsw7st" path="res://characters/console.tres" id="1_a4rjl"]
+[ext_resource type="Script" path="res://example_dialog_sequence.gd" id="1_l62ku"]
+[ext_resource type="Script" path="res://text_window_dialog.gd" id="2_g8w6n"]
+[ext_resource type="Script" path="res://example_dialog_text.gd" id="3_py10d"]
+[ext_resource type="Resource" uid="uid://d4gcuus4aegva" path="res://characters/iseeicy.tres" id="4_oo5jf"]
+
+[sub_resource type="Resource" id="Resource_em7am"]
+script = ExtResource("2_g8w6n")
+text = "Hello world!"
+character = ExtResource("1_a4rjl")
+
+[sub_resource type="Resource" id="Resource_0ow5e"]
+script = ExtResource("3_py10d")
+dialog = SubResource("Resource_em7am")
+
+[sub_resource type="Resource" id="Resource_ooi84"]
+script = ExtResource("2_g8w6n")
+text = "This is some dialog. Wow!"
+character = ExtResource("1_a4rjl")
+
+[sub_resource type="Resource" id="Resource_2a5nl"]
+script = ExtResource("3_py10d")
+dialog = SubResource("Resource_ooi84")
+
+[sub_resource type="Resource" id="Resource_tph35"]
+script = ExtResource("2_g8w6n")
+text = "It even includes other characters. [wave]Wow![/wave]"
+character = ExtResource("4_oo5jf")
+
+[sub_resource type="Resource" id="Resource_f71lc"]
+script = ExtResource("3_py10d")
+dialog = SubResource("Resource_tph35")
+
+[sub_resource type="Resource" id="Resource_klstn"]
+script = ExtResource("2_g8w6n")
+text = "I'm sure there's more cool things that can be done, still!"
+character = ExtResource("1_a4rjl")
+
+[sub_resource type="Resource" id="Resource_f21xa"]
+script = ExtResource("3_py10d")
+dialog = SubResource("Resource_klstn")
+
+[resource]
+script = ExtResource("1_l62ku")
+elements = Array[Resource("res://example_dialog_element.gd")]([SubResource("Resource_0ow5e"), SubResource("Resource_2a5nl"), SubResource("Resource_f71lc"), SubResource("Resource_f21xa")])
