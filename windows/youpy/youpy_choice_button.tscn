@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c3fg1qq2enftu"]
 
-[ext_resource type="Theme" uid="uid://dyf00q5asj563" path="res://windows/youpy_theme.tres" id="1_rql32"]
+[ext_resource type="Theme" uid="uid://gk51jb1niqbd" path="res://windows/youpy/youpy_theme.tres" id="1_rql32"]
 
 [node name="YouPYChoiceButton" type="RichTextLabel"]
 theme = ExtResource("1_rql32")
