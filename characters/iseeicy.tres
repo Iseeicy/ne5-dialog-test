@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CharacterSpeaker" load_steps=3 format=3 uid="uid://d4gcuus4aegva"]
 
-[ext_resource type="Script" path="res://character_speaker.gd" id="1_sxh5a"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.character/character_speaker.gd" id="1_sxh5a"]
 [ext_resource type="Resource" uid="uid://dommxrfj7yyqi" path="res://addons/netengine5/net.bobbo.text-reader/sounds/iseeicy/iseeicy.tres" id="2_ojgcg"]
 
 [resource]

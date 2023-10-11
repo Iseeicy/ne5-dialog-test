@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://example_dialog_sequence.gd" id="1_id316"]
 [ext_resource type="Resource" uid="uid://d4gcuus4aegva" path="res://characters/iseeicy.tres" id="1_lgxnx"]
-[ext_resource type="Script" path="res://text_window_dialog.gd" id="2_548hh"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/text_window_dialog.gd" id="2_548hh"]
 [ext_resource type="Script" path="res://example_dialog_text.gd" id="3_rjyr8"]
-[ext_resource type="Script" path="res://text_window_choice.gd" id="5_12yu6"]
-[ext_resource type="Script" path="res://text_window_choice_prompt.gd" id="6_pv77j"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/text_window_choice.gd" id="5_12yu6"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-window/text_window_choice_prompt.gd" id="6_pv77j"]
 [ext_resource type="Script" path="res://example_dialog_choice_prompt.gd" id="7_q6wo0"]
 
 [sub_resource type="Resource" id="Resource_8sa3r"]
