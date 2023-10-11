@@ -76,7 +76,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_h1k1r")
 filled_anchor_pos = Vector2(0, 1)
-filled_anchor_offset = Vector2(320, -150)
+filled_anchor_offset = Vector2(250, -150)
 max_distance = 10.0
 
 [node name="ProjectionCharacterFocus" type="Node" parent="DistanceFillProjection"]
@@ -84,14 +84,17 @@ script = ExtResource("3_ojdvd")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="DistanceFillProjection"]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = -175.0
-offset_top = -100.0
-offset_right = 175.0
-offset_bottom = 100.0
-grow_vertical = 0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -125.0
+offset_right = 225.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_godsv")
 theme_override_constants/separation = 0
 alignment = 2
@@ -117,7 +120,7 @@ fit_content = true
 autowrap_mode = 0
 
 [node name="ContentsContainer" type="Panel" parent="DistanceFillProjection/VBoxContainer"]
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 theme = ExtResource("1_godsv")
 
@@ -240,8 +243,8 @@ text_reader = NodePath("../../../DistanceFillProjection/VBoxContainer/ContentsCo
 
 [connection signal="choice_prompt_shown" from="." to="StateMachine/Open/Choices" method="_on_text_window_choice_prompt_shown"]
 [connection signal="closed" from="." to="StateMachine/Closed" method="_on_text_window_closed"]
-[connection signal="dialog_shown" from="." to="StateMachine/Open/Dialog/Showing" method="_on_text_window_dialog_shown"]
 [connection signal="dialog_shown" from="." to="DistanceFillProjection/ProjectionCharacterFocus" method="_on_text_window_dialog_shown"]
+[connection signal="dialog_shown" from="." to="StateMachine/Open/Dialog/Showing" method="_on_text_window_dialog_shown"]
 [connection signal="fast_forwarded" from="." to="StateMachine/Open/Dialog/Showing" method="_on_text_window_fast_forwarded"]
 [connection signal="reading_finished" from="DistanceFillProjection/VBoxContainer/ContentsContainer/DialogContents/MarginContainer/TextReaderLabel/TextReader" to="DistanceFillProjection/VBoxContainer/ContentsContainer/DialogContents/FinishIndicator" method="_on_text_reader_reading_finished"]
 [connection signal="reading_started" from="DistanceFillProjection/VBoxContainer/ContentsContainer/DialogContents/MarginContainer/TextReaderLabel/TextReader" to="DistanceFillProjection/VBoxContainer/ContentsContainer/DialogContents/FinishIndicator" method="_on_text_reader_reading_started"]
