@@ -27,7 +27,7 @@ script/source = "extends ExampleTextWindowDriver
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	match(window.get_state().get_state_path()):
 		\"Open/Dialog/Showing\":
 			if Input.is_action_just_pressed(\"player_interact\"):

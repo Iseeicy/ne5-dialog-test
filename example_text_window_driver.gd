@@ -74,6 +74,6 @@ func _next_element() -> void:
 #	Signals
 #
 
-func _on_text_window_choice_confirmed(index: int, prompt: TextWindowChoicePrompt):
+func _on_text_window_choice_confirmed(index: int, _prompt: TextWindowChoicePrompt):
 	var element = _current_sequence.elements[_sequence_index] as ExampleDialogChoicePrompt
 	show_sequence(element.destinations[index])
