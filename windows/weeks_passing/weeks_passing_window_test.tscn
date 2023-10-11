@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bv8ap4l5yjei4"]
+[gd_scene load_steps=8 format=3 uid="uid://bv8ap4l5yjei4"]
 
 [ext_resource type="PackedScene" uid="uid://datg8ahd8chkh" path="res://windows/weeks_passing/weeks_passing_window.tscn" id="1_xyraq"]
 [ext_resource type="Script" path="res://example_text_window_driver.gd" id="2_4l47a"]
 [ext_resource type="Resource" uid="uid://jg2gocw2p56f" path="res://example_dialog/basic_sequence.tres" id="3_qrpgl"]
+[ext_resource type="Resource" uid="uid://bh6k7syvr2irc" path="res://example_dialog/complex_start.tres" id="4_b0ntj"]
 
 [sub_resource type="GDScript" id="GDScript_fdsm0"]
 script/source = "extends Button
@@ -12,6 +13,15 @@ script/source = "extends Button
 
 func _on_pressed():
 	window_driver.show_sequence(sequence)
+"
+
+[sub_resource type="GDScript" id="GDScript_bi68i"]
+script/source = "extends Button
+
+@export var window_driver: ExampleTextWindowDriver
+
+func _on_pressed():
+	window_driver.progress()
 "
 
 [sub_resource type="GDScript" id="GDScript_crr62"]
@@ -43,15 +53,44 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -95.0
-offset_top = 121.0
-offset_right = 82.0
-offset_bottom = 194.0
+offset_left = -222.0
+offset_top = 95.0
+offset_right = -45.0
+offset_bottom = 168.0
 grow_horizontal = 2
 text = "Show Dialog"
 script = SubResource("GDScript_fdsm0")
 window_driver = NodePath("../ExampleTextWindowDriver")
 sequence = ExtResource("3_qrpgl")
+
+[node name="ButtonShowDialog2" type="Button" parent="." node_paths=PackedStringArray("window_driver")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 1.0
+offset_top = 95.0
+offset_right = 178.0
+offset_bottom = 168.0
+grow_horizontal = 2
+text = "Show Dialog Complex"
+script = SubResource("GDScript_fdsm0")
+window_driver = NodePath("../ExampleTextWindowDriver")
+sequence = ExtResource("4_b0ntj")
+
+[node name="ButtonProgress" type="Button" parent="." node_paths=PackedStringArray("window_driver")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -222.0
+offset_top = 185.0
+offset_right = -45.0
+offset_bottom = 258.0
+grow_horizontal = 2
+text = "Progress"
+script = SubResource("GDScript_bi68i")
+window_driver = NodePath("../ExampleTextWindowDriver")
 
 [node name="ButtonShowClose" type="Button" parent="." node_paths=PackedStringArray("window")]
 layout_mode = 1
@@ -68,4 +107,6 @@ script = SubResource("GDScript_crr62")
 window = NodePath("../WeeksPassingWindow")
 
 [connection signal="pressed" from="ButtonShowDialog" to="ButtonShowDialog" method="_on_pressed"]
+[connection signal="pressed" from="ButtonShowDialog2" to="ButtonShowDialog2" method="_on_pressed"]
+[connection signal="pressed" from="ButtonProgress" to="ButtonProgress" method="_on_pressed"]
 [connection signal="pressed" from="ButtonShowClose" to="ButtonShowClose" method="_on_pressed"]

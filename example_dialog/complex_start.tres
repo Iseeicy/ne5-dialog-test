@@ -1,0 +1,75 @@
+[gd_resource type="Resource" script_class="ExampleDialogSequence" load_steps=22 format=3 uid="uid://bh6k7syvr2irc"]
+
+[ext_resource type="Script" path="res://example_dialog_sequence.gd" id="1_id316"]
+[ext_resource type="Resource" uid="uid://d4gcuus4aegva" path="res://characters/iseeicy.tres" id="1_lgxnx"]
+[ext_resource type="Script" path="res://text_window_dialog.gd" id="2_548hh"]
+[ext_resource type="Script" path="res://example_dialog_text.gd" id="3_rjyr8"]
+[ext_resource type="Script" path="res://text_window_choice.gd" id="5_12yu6"]
+[ext_resource type="Script" path="res://text_window_choice_prompt.gd" id="6_pv77j"]
+[ext_resource type="Script" path="res://example_dialog_choice_prompt.gd" id="7_q6wo0"]
+
+[sub_resource type="Resource" id="Resource_8sa3r"]
+script = ExtResource("2_548hh")
+text = "This is a more complex dialog test, presented by yours truly... Iseeicy!"
+character = ExtResource("1_lgxnx")
+
+[sub_resource type="Resource" id="Resource_mr0uv"]
+script = ExtResource("3_rjyr8")
+dialog = SubResource("Resource_8sa3r")
+
+[sub_resource type="Resource" id="Resource_c78gd"]
+script = ExtResource("2_548hh")
+text = "For this, we're going to be testing out prompts."
+character = ExtResource("1_lgxnx")
+
+[sub_resource type="Resource" id="Resource_wdivy"]
+script = ExtResource("3_rjyr8")
+dialog = SubResource("Resource_c78gd")
+
+[sub_resource type="Resource" id="Resource_uyg4c"]
+script = ExtResource("2_548hh")
+text = "Hah! You're in luck! You just experienced a prompt!"
+character = ExtResource("1_lgxnx")
+
+[sub_resource type="Resource" id="Resource_a86qs"]
+script = ExtResource("3_rjyr8")
+dialog = SubResource("Resource_uyg4c")
+
+[sub_resource type="Resource" id="Resource_ltl84"]
+script = ExtResource("1_id316")
+elements = Array[Resource("res://example_dialog_element.gd")]([SubResource("Resource_a86qs")])
+
+[sub_resource type="Resource" id="Resource_p1y6j"]
+script = ExtResource("2_548hh")
+text = "Oh... well.... uh.... sorry then......."
+character = ExtResource("1_lgxnx")
+
+[sub_resource type="Resource" id="Resource_lsy6a"]
+script = ExtResource("3_rjyr8")
+dialog = SubResource("Resource_p1y6j")
+
+[sub_resource type="Resource" id="Resource_y36p2"]
+script = ExtResource("1_id316")
+elements = Array[Resource("res://example_dialog_element.gd")]([SubResource("Resource_lsy6a")])
+
+[sub_resource type="Resource" id="Resource_6yug7"]
+script = ExtResource("5_12yu6")
+text = "What's a prompt?"
+
+[sub_resource type="Resource" id="Resource_i3usy"]
+script = ExtResource("5_12yu6")
+text = "I don't like prompts"
+
+[sub_resource type="Resource" id="Resource_fkx7w"]
+script = ExtResource("6_pv77j")
+text = ""
+choices = Array[ExtResource("5_12yu6")]([SubResource("Resource_6yug7"), SubResource("Resource_i3usy")])
+
+[sub_resource type="Resource" id="Resource_rd8fn"]
+script = ExtResource("7_q6wo0")
+prompt = SubResource("Resource_fkx7w")
+destinations = Array[ExtResource("1_id316")]([SubResource("Resource_ltl84"), SubResource("Resource_y36p2")])
+
+[resource]
+script = ExtResource("1_id316")
+elements = Array[Resource("res://example_dialog_element.gd")]([SubResource("Resource_mr0uv"), SubResource("Resource_wdivy"), SubResource("Resource_rd8fn")])

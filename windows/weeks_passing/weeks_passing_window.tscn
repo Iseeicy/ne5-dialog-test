@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://datg8ahd8chkh"]
+[gd_scene load_steps=14 format=3 uid="uid://datg8ahd8chkh"]
 
 [ext_resource type="Script" path="res://text_window.gd" id="1_11fhr"]
 [ext_resource type="Theme" uid="uid://57oygov2t8kg" path="res://windows/weeks_passing/weeks_passing_theme.tres" id="2_bn8st"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://windows/weeks_passing/states/choices.gd" id="10_nppdv"]
 [ext_resource type="Script" path="res://windows/weeks_passing/states/showing.gd" id="10_vuy3h"]
 [ext_resource type="Script" path="res://windows/weeks_passing/states/shown.gd" id="11_jihw4"]
+[ext_resource type="PackedScene" uid="uid://ceyek4s0m7tm0" path="res://windows/weeks_passing/wp_button.tscn" id="13_0k323"]
 
 [node name="WeeksPassingWindow" type="Control"]
 layout_mode = 3
@@ -45,6 +46,7 @@ theme = ExtResource("2_bn8st")
 layout_mode = 2
 
 [node name="TextHeader" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 0
 theme = ExtResource("2_bn8st")
@@ -53,6 +55,7 @@ text = "This is a test"
 fit_content = true
 
 [node name="TextContent" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("2_bn8st")
@@ -68,21 +71,10 @@ script = ExtResource("4_hrnn7")
 script = ExtResource("5_6el60")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
-
-[node name="LeftButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_bn8st")
-text = "Yes!"
-
-[node name="RightButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_bn8st")
-text = "No"
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("6_ns5ew")
@@ -107,8 +99,11 @@ script = ExtResource("10_vuy3h")
 [node name="Shown" type="Node" parent="StateMachine/Open/Dialog"]
 script = ExtResource("11_jihw4")
 
-[node name="Choices" type="Node" parent="StateMachine/Open"]
+[node name="Choices" type="Node" parent="StateMachine/Open" node_paths=PackedStringArray("choice_container", "text_reader")]
 script = ExtResource("10_nppdv")
+choice_button_scene = ExtResource("13_0k323")
+choice_container = NodePath("../../../PanelContainer/MarginContainer/VBoxContainer/HBoxContainer")
+text_reader = NodePath("../../../PanelContainer/MarginContainer/VBoxContainer/TextContent/TextReader")
 
 [connection signal="choice_prompt_shown" from="." to="StateMachine/Open/Choices" method="_on_text_window_choice_prompt_shown"]
 [connection signal="closed" from="." to="StateMachine/Closed" method="_on_text_window_closed"]

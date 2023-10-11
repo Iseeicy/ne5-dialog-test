@@ -4,3 +4,4 @@
 
 [resource]
 script = ExtResource("1_aumvs")
+name = "Console"

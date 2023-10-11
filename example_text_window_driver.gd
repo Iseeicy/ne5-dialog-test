@@ -47,6 +47,11 @@ func close() -> void:
 #
 
 func _next_element() -> void:
+	if _sequence_index > 0:
+		var element = _current_sequence.elements[_sequence_index]
+		if element is ExampleDialogChoicePrompt:
+			return
+	
 	_sequence_index += 1
 	
 	# If there is NOT something to display, close the window.
