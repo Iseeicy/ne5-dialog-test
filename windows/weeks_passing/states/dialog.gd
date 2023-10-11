@@ -5,8 +5,9 @@ extends TextWindowState
 #
 
 @export_group("Required References")
+@export var header_container: Control
 @export var header_label: RichTextLabel
-@export var text_content: RichTextLabel
+@export var text_content: Control
 @export var text_reader: TextReader
 
 #
@@ -16,6 +17,8 @@ extends TextWindowState
 func state_enter(_message: Dictionary = {}) -> void:
 	_parent_state.state_enter(_message)
 	
+	if header_container:
+		header_container.visible = true
 	header_label.visible = true
 	text_content.visible = true
 	
@@ -31,6 +34,8 @@ func state_physics_process(delta: float) -> void:
 func state_exit() -> void:
 	_parent_state.state_exit()
 	
+	if header_container:
+		header_container.visible = false
 	header_label.visible = false
 	text_content.visible = false
 	

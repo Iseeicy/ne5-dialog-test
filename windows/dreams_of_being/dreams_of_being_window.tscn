@@ -1,12 +1,34 @@
-[gd_scene load_steps=10 format=3 uid="uid://c7eoh8t1t7pq6"]
+[gd_scene load_steps=17 format=3 uid="uid://c7eoh8t1t7pq6"]
 
-[ext_resource type="Script" path="res://windows/dreams_of_being_window.gd" id="1_6gig1"]
-[ext_resource type="Theme" uid="uid://ekn67a0jtwok" path="res://windows/dreams_of_being_theme.tres" id="1_fxkev"]
-[ext_resource type="PackedScene" uid="uid://0i5wj6suuc8k" path="res://windows/dob_choice_button.tscn" id="2_80t5b"]
+[ext_resource type="Script" path="res://text_window.gd" id="1_ff7do"]
+[ext_resource type="Theme" uid="uid://ekn67a0jtwok" path="res://windows/dreams_of_being/dreams_of_being_theme.tres" id="1_fxkev"]
+[ext_resource type="PackedScene" uid="uid://0i5wj6suuc8k" path="res://windows/dreams_of_being/dob_choice_button.tscn" id="2_80t5b"]
 [ext_resource type="PackedScene" uid="uid://ghb87k7v67ts" path="res://addons/netengine5/net.bobbo.text-reader/examples/text_reader_label.tscn" id="2_qqs26"]
-[ext_resource type="Script" path="res://windows/dob_finish_indicator.gd" id="5_e1r5u"]
+[ext_resource type="Script" path="res://windows/dreams_of_being/dob_finish_indicator.gd" id="5_e1r5u"]
+[ext_resource type="Script" path="res://text_window_state_machine.gd" id="6_ggya2"]
+[ext_resource type="Script" path="res://windows/weeks_passing/states/closed.gd" id="7_qoccr"]
+[ext_resource type="Script" path="res://windows/weeks_passing/states/open.gd" id="8_nodat"]
+[ext_resource type="Script" path="res://windows/weeks_passing/states/dialog.gd" id="9_kuopn"]
+[ext_resource type="Script" path="res://windows/weeks_passing/states/showing.gd" id="10_4xxyi"]
+[ext_resource type="Script" path="res://windows/weeks_passing/states/shown.gd" id="11_f54hu"]
+[ext_resource type="Script" path="res://windows/weeks_passing/states/choices.gd" id="12_1ge0d"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_etd7i"]
+
+[sub_resource type="Animation" id="Animation_723dj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_17xyh"]
 resource_name = "dob_window_finish"
@@ -25,42 +47,20 @@ tracks/0/keys = {
 "values": [0.0, 0.349066, 0.0, -0.349066, 0.0]
 }
 
-[sub_resource type="Animation" id="Animation_723dj"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ytj5q"]
 _data = {
 "RESET": SubResource("Animation_723dj"),
 "dob_window_finish": SubResource("Animation_17xyh")
 }
 
-[node name="DreamsOfBeingWindow" type="Control" node_paths=PackedStringArray("header_container", "header_label", "dialog_contents_container", "dialog_text_reader", "choice_contents_container", "choice_spawn_container")]
+[node name="DreamsOfBeingWindow" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_6gig1")
-choice_button_scene = ExtResource("2_80t5b")
-header_container = NodePath("VBoxContainer/HeaderContainer")
-header_label = NodePath("VBoxContainer/HeaderContainer/MarginContainer/RichTextLabel")
-dialog_contents_container = NodePath("VBoxContainer/ContentsContainer/DialogContents")
-dialog_text_reader = NodePath("VBoxContainer/ContentsContainer/DialogContents/MarginContainer/TextReaderLabel/TextReader")
-choice_contents_container = NodePath("VBoxContainer/ContentsContainer/ChoiceContents")
-choice_spawn_container = NodePath("VBoxContainer/ContentsContainer/ChoiceContents/ScrollArea/VBoxContainer")
+script = ExtResource("1_ff7do")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -102,6 +102,7 @@ layout_mode = 2
 theme = ExtResource("1_fxkev")
 
 [node name="DialogContents" type="Control" parent="VBoxContainer/ContentsContainer"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -183,6 +184,41 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_fxkev")
 
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("6_ggya2")
+initial_state = NodePath("Closed")
+
+[node name="Closed" type="Node" parent="StateMachine" node_paths=PackedStringArray("text_reader")]
+script = ExtResource("7_qoccr")
+text_reader = NodePath("../../VBoxContainer/ContentsContainer/DialogContents/MarginContainer/TextReaderLabel/TextReader")
+
+[node name="Open" type="Node" parent="StateMachine"]
+script = ExtResource("8_nodat")
+
+[node name="Dialog" type="Node" parent="StateMachine/Open" node_paths=PackedStringArray("header_container", "header_label", "text_content", "text_reader")]
+script = ExtResource("9_kuopn")
+header_container = NodePath("../../../VBoxContainer/HeaderContainer")
+header_label = NodePath("../../../VBoxContainer/HeaderContainer/MarginContainer/RichTextLabel")
+text_content = NodePath("../../../VBoxContainer/ContentsContainer/DialogContents")
+text_reader = NodePath("../../../VBoxContainer/ContentsContainer/DialogContents/MarginContainer/TextReaderLabel/TextReader")
+
+[node name="Showing" type="Node" parent="StateMachine/Open/Dialog"]
+script = ExtResource("10_4xxyi")
+
+[node name="Shown" type="Node" parent="StateMachine/Open/Dialog"]
+script = ExtResource("11_f54hu")
+
+[node name="Choices" type="Node" parent="StateMachine/Open" node_paths=PackedStringArray("choice_contents", "choice_button_parent", "text_reader")]
+script = ExtResource("12_1ge0d")
+choice_button_scene = ExtResource("2_80t5b")
+choice_contents = NodePath("../../../VBoxContainer/ContentsContainer/ChoiceContents")
+choice_button_parent = NodePath("../../../VBoxContainer/ContentsContainer/ChoiceContents/ScrollArea/VBoxContainer")
+text_reader = NodePath("../../../VBoxContainer/ContentsContainer/DialogContents/MarginContainer/TextReaderLabel/TextReader")
+
+[connection signal="choice_prompt_shown" from="." to="StateMachine/Open/Choices" method="_on_text_window_choice_prompt_shown"]
+[connection signal="closed" from="." to="StateMachine/Closed" method="_on_text_window_closed"]
+[connection signal="dialog_shown" from="." to="StateMachine/Open/Dialog/Showing" method="_on_text_window_dialog_shown"]
+[connection signal="fast_forwarded" from="." to="StateMachine/Open/Dialog/Showing" method="_on_text_window_fast_forwarded"]
 [connection signal="reading_finished" from="VBoxContainer/ContentsContainer/DialogContents/MarginContainer/TextReaderLabel/TextReader" to="VBoxContainer/ContentsContainer/DialogContents/FinishIndicator" method="_on_text_reader_reading_finished"]
 [connection signal="reading_started" from="VBoxContainer/ContentsContainer/DialogContents/MarginContainer/TextReaderLabel/TextReader" to="VBoxContainer/ContentsContainer/DialogContents/FinishIndicator" method="_on_text_reader_reading_started"]
 

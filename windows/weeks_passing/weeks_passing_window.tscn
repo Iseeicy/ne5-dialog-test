@@ -99,10 +99,11 @@ script = ExtResource("10_vuy3h")
 [node name="Shown" type="Node" parent="StateMachine/Open/Dialog"]
 script = ExtResource("11_jihw4")
 
-[node name="Choices" type="Node" parent="StateMachine/Open" node_paths=PackedStringArray("choice_container", "text_reader")]
+[node name="Choices" type="Node" parent="StateMachine/Open" node_paths=PackedStringArray("choice_contents", "choice_button_parent", "text_reader")]
 script = ExtResource("10_nppdv")
 choice_button_scene = ExtResource("13_0k323")
-choice_container = NodePath("../../../PanelContainer/MarginContainer/VBoxContainer/HBoxContainer")
+choice_contents = NodePath("../../../PanelContainer/MarginContainer/VBoxContainer/HBoxContainer")
+choice_button_parent = NodePath("../../../PanelContainer/MarginContainer/VBoxContainer/HBoxContainer")
 text_reader = NodePath("../../../PanelContainer/MarginContainer/VBoxContainer/TextContent/TextReader")
 
 [connection signal="choice_prompt_shown" from="." to="StateMachine/Open/Choices" method="_on_text_window_choice_prompt_shown"]

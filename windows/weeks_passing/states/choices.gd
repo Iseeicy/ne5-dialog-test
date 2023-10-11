@@ -8,7 +8,8 @@ extends TextWindowState
 @export var choice_button_scene: PackedScene
 
 @export_group("Required References")
-@export var choice_container: HBoxContainer
+@export var choice_contents: Control
+@export var choice_button_parent: Control
 @export var text_reader: TextReader
 
 #
@@ -33,7 +34,7 @@ func state_enter(_message: Dictionary = {}) -> void:
 	if prompt:
 		_spawn_choice_buttons(prompt)
 	
-	choice_container.visible = true
+	choice_contents.visible = true
 	
 func state_unhandled_input(event: InputEvent) -> void:
 	_parent_state.state_unhandled_input(event)
@@ -47,7 +48,7 @@ func state_physics_process(delta: float) -> void:
 func state_exit() -> void:
 	_parent_state.state_exit()
 	
-	choice_container.visible = false
+	choice_contents.visible = false
 	_clean_choice_buttons()
 
 #
@@ -74,7 +75,7 @@ func _spawn_choice_buttons(prompt: TextWindowChoicePrompt):
 
 func _add_new_button() -> Control:
 	var new_button = choice_button_scene.instantiate()
-	choice_container.add_child(new_button)
+	choice_button_parent.add_child(new_button)
 	_current_buttons.append(new_button)
 	return new_button
 	
