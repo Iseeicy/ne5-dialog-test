@@ -42,7 +42,7 @@ func _process(_delta):
 [sub_resource type="GDScript" id="GDScript_42gad"]
 script/source = "extends MeshInstance3D
 
-@export var character: CharacterSpeaker
+@export var character: CharacterDefinition
 @export var character_origin: Node3D
 
 func _ready():

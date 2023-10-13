@@ -6,7 +6,7 @@ class_name ExampleCharacterTarget
 #
 
 @export var track_to_node: Node
-@export var character: CharacterSpeaker
+@export var character: CharacterDefinition
 
 #
 #	Godot Functions
