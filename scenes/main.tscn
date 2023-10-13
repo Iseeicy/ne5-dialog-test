@@ -1,20 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c7gu2pm1vmanm"]
+[gd_scene load_steps=7 format=3 uid="uid://c7gu2pm1vmanm"]
 
-[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_speaker.gd" id="1_7kui1"]
-[ext_resource type="Script" path="res://test_text_reader.gd" id="3_vi2nk"]
+[ext_resource type="PackedScene" uid="uid://ghb87k7v67ts" path="res://addons/netengine5/net.bobbo.text-reader/examples/text_reader_label.tscn" id="1_7hbnr"]
+[ext_resource type="Script" path="res://scripts/test_text_reader.gd" id="3_vi2nk"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_reader_settings.gd" id="4_1ysar"]
 [ext_resource type="Resource" uid="uid://718c4m0voxmk" path="res://addons/netengine5/net.bobbo.text-reader/sounds/marvi/marvi.tres" id="5_wmpt0"]
-[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_reader.gd" id="8_ueyil"]
-
-[sub_resource type="GDScript" id="GDScript_6gmcd"]
-script/source = "extends RichTextLabel
-
-func _on_text_reader_text_changed(raw_text, _stripped_text):
-	text = raw_text
-
-func _on_text_reader_visible_chars_changed(visible_count, _char):
-	visible_characters = visible_count
-"
 
 [sub_resource type="Resource" id="Resource_7d7bj"]
 script = ExtResource("4_1ysar")
@@ -74,16 +63,8 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="RichTextLabel" type="RichTextLabel" parent="WindowOutline/Contents/MarginContainer"]
+[node name="TextReaderLabel" parent="WindowOutline/Contents/MarginContainer" instance=ExtResource("1_7hbnr")]
 layout_mode = 2
-bbcode_enabled = true
-script = SubResource("GDScript_6gmcd")
-
-[node name="TextReader" type="Node" parent="WindowOutline/Contents/MarginContainer/RichTextLabel"]
-script = ExtResource("8_ueyil")
-
-[node name="TextSpeaker" type="Node" parent="WindowOutline/Contents/MarginContainer/RichTextLabel"]
-script = ExtResource("1_7kui1")
 
 [node name="LineEditConsole" type="LineEdit" parent="." node_paths=PackedStringArray("text_reader")]
 layout_mode = 1
@@ -99,7 +80,7 @@ offset_bottom = 227.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_vi2nk")
-text_reader = NodePath("../WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader")
+text_reader = NodePath("../WindowOutline/Contents/MarginContainer/TextReaderLabel/TextReader")
 settings = SubResource("Resource_7d7bj")
 
 [node name="LineEditMarvi" type="LineEdit" parent="." node_paths=PackedStringArray("text_reader")]
@@ -116,12 +97,10 @@ offset_bottom = 313.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_vi2nk")
-text_reader = NodePath("../WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader")
+text_reader = NodePath("../WindowOutline/Contents/MarginContainer/TextReaderLabel/TextReader")
 settings = SubResource("Resource_7tepr")
 
-[connection signal="reading_started" from="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" to="WindowOutline/Contents/MarginContainer/RichTextLabel/TextSpeaker" method="_on_text_reader_reading_started"]
-[connection signal="text_changed" from="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" to="WindowOutline/Contents/MarginContainer/RichTextLabel" method="_on_text_reader_text_changed"]
-[connection signal="visible_chars_changed" from="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" to="WindowOutline/Contents/MarginContainer/RichTextLabel" method="_on_text_reader_visible_chars_changed"]
-[connection signal="visible_chars_changed" from="WindowOutline/Contents/MarginContainer/RichTextLabel/TextReader" to="WindowOutline/Contents/MarginContainer/RichTextLabel/TextSpeaker" method="_on_text_reader_visible_chars_changed"]
 [connection signal="text_submitted" from="LineEditConsole" to="LineEditConsole" method="_on_text_submitted"]
 [connection signal="text_submitted" from="LineEditMarvi" to="LineEditMarvi" method="_on_text_submitted"]
+
+[editable path="WindowOutline/Contents/MarginContainer/TextReaderLabel"]

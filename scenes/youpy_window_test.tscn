@@ -1,0 +1,265 @@
+[gd_scene load_steps=24 format=3 uid="uid://cnwwfnmsoyog1"]
+
+[ext_resource type="PackedScene" uid="uid://b61qm4pa2ri2" path="res://addons/netengine5/net.bobbo.text-window.you-played-yourself/window.tscn" id="1_k7ebc"]
+[ext_resource type="Resource" uid="uid://bde5f5tlsw7st" path="res://characters/console.tres" id="2_1cyce"]
+[ext_resource type="Resource" uid="uid://d144jtnops0uh" path="res://characters/old_default.tres" id="3_8ly1h"]
+[ext_resource type="Resource" uid="uid://d4gcuus4aegva" path="res://characters/iseeicy.tres" id="4_f8klx"]
+[ext_resource type="PackedScene" uid="uid://b4nwduau6uxjr" path="res://addons/netengine5/net.bobbo.player-controller/player_controller.tscn" id="5_j6sfh"]
+[ext_resource type="Script" path="res://scripts/mouse_focus.gd" id="6_hummh"]
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.interactable/interactable.gd" id="7_cwh2s"]
+[ext_resource type="Resource" uid="uid://jg2gocw2p56f" path="res://example_dialog/basic_sequence.tres" id="8_he4ko"]
+[ext_resource type="Resource" uid="uid://bh6k7syvr2irc" path="res://example_dialog/complex_start.tres" id="9_vej7i"]
+
+[sub_resource type="Environment" id="Environment_gthoa"]
+background_mode = 1
+background_color = Color(0.164706, 0.164706, 0.164706, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.298039, 0.298039, 0.298039, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kllm4"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_04jra"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="GDScript" id="GDScript_2a1b7"]
+script/source = "extends ExampleTextWindowDriver
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	match(window.get_state().get_state_path()):
+		\"Open/Dialog/Showing\":
+			if Input.is_action_just_pressed(\"player_interact\"):
+				window.fast_forward()
+		\"Open/Dialog/Shown\":
+			if Input.is_action_just_pressed(\"player_interact\"):
+				self.progress()
+"
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cvsqc"]
+
+[sub_resource type="GDScript" id="GDScript_42gad"]
+script/source = "extends MeshInstance3D
+
+@export var character: CharacterDefinition
+@export var character_origin: Node3D
+
+func _ready():
+	character.set_tracked_node(character_origin)
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7knj8"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_w5u3s"]
+top_radius = 0.1
+bottom_radius = 0.09
+height = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_fya3k"]
+size = Vector3(0.3, 0.3, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kpapb"]
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ysi8e"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ekcyk"]
+radius = 0.134824
+
+[sub_resource type="GDScript" id="GDScript_m4p2b"]
+script/source = "extends Node
+
+@export var button: Node3D
+
+func _on_interactable_interact_started():
+	print(\"yo!\")
+
+
+func _on_interactable_hover_changed(state):
+	button.scale = Vector3.ONE if state else Vector3.ONE * 0.9
+"
+
+[sub_resource type="GDScript" id="GDScript_j4dpw"]
+script/source = "extends Node
+
+@export var window_driver: ExampleTextWindowDriver
+@export var sequence: ExampleDialogSequence
+
+func _on_interactable_interact_started():
+	window_driver.show_sequence(sequence)
+"
+
+[node name="YouPYWindowTest" type="Node3D"]
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="World"]
+environment = SubResource("Environment_gthoa")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
+transform = Transform3D(0.987615, -0.0317289, -0.153658, 0.1569, 0.199719, 0.96721, 0, -0.979339, 0.202224, -0.694694, 0.583301, 0.56647)
+shadow_enabled = true
+
+[node name="Ground" type="MeshInstance3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_kllm4")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Ground/StaticBody3D"]
+shape = SubResource("BoxShape3D_04jra")
+
+[node name="YouPYWindow" parent="." instance=ExtResource("1_k7ebc")]
+
+[node name="ExampleTextWindowDriver" type="Node" parent="." node_paths=PackedStringArray("window")]
+script = SubResource("GDScript_2a1b7")
+window = NodePath("../YouPYWindow")
+
+[node name="Cursor" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.785398
+pivot_offset = Vector2(4, 4)
+
+[node name="FakeNPC" type="MeshInstance3D" parent="." node_paths=PackedStringArray("character_origin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -11.6998)
+mesh = SubResource("CapsuleMesh_cvsqc")
+script = SubResource("GDScript_42gad")
+character = ExtResource("2_1cyce")
+character_origin = NodePath("Marker3D")
+
+[node name="Marker3D" type="Marker3D" parent="FakeNPC"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.412557, 0)
+gizmo_extents = 2.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="FakeNPC"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FakeNPC/StaticBody3D"]
+shape = SubResource("CapsuleShape3D_7knj8")
+
+[node name="FakeNPC2" type="MeshInstance3D" parent="." node_paths=PackedStringArray("character_origin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -11.6998)
+mesh = SubResource("CapsuleMesh_cvsqc")
+script = SubResource("GDScript_42gad")
+character = ExtResource("3_8ly1h")
+character_origin = NodePath("Marker3D")
+
+[node name="Marker3D" type="Marker3D" parent="FakeNPC2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.412557, 0)
+gizmo_extents = 2.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="FakeNPC2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FakeNPC2/StaticBody3D"]
+shape = SubResource("CapsuleShape3D_7knj8")
+
+[node name="FakeNPC3" type="MeshInstance3D" parent="." node_paths=PackedStringArray("character_origin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -11.6998)
+mesh = SubResource("CapsuleMesh_cvsqc")
+script = SubResource("GDScript_42gad")
+character = ExtResource("4_f8klx")
+character_origin = NodePath("Marker3D")
+
+[node name="Marker3D" type="Marker3D" parent="FakeNPC3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.412557, 0)
+gizmo_extents = 2.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="FakeNPC3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FakeNPC3/StaticBody3D"]
+shape = SubResource("CapsuleShape3D_7knj8")
+
+[node name="PlayerController" parent="." instance=ExtResource("5_j6sfh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="MouseFocus" type="Node" parent="."]
+script = ExtResource("6_hummh")
+
+[node name="ButtonPole" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, -7)
+mesh = SubResource("CylinderMesh_w5u3s")
+
+[node name="Panel" type="MeshInstance3D" parent="ButtonPole"]
+transform = Transform3D(1, 0, 0, 0, 0.920668, 0.390346, 0, -0.390346, 0.920668, 0, 0.5, 0.113143)
+mesh = SubResource("BoxMesh_fya3k")
+
+[node name="Button" type="MeshInstance3D" parent="ButtonPole/Panel"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.045)
+material_override = SubResource("StandardMaterial3D_kpapb")
+mesh = SubResource("CylinderMesh_ysi8e")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ButtonPole/Panel/Button"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ButtonPole/Panel/Button/StaticBody3D"]
+shape = SubResource("SphereShape3D_ekcyk")
+
+[node name="Interactable" type="Node" parent="ButtonPole/Panel/Button/StaticBody3D"]
+script = ExtResource("7_cwh2s")
+
+[node name="Label3D" type="Label3D" parent="ButtonPole"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+text = "Basic
+Dialog"
+
+[node name="ScaleLogic" type="Node" parent="ButtonPole" node_paths=PackedStringArray("button")]
+script = SubResource("GDScript_m4p2b")
+button = NodePath("../Panel/Button")
+
+[node name="StartDialog" type="Node" parent="ButtonPole" node_paths=PackedStringArray("window_driver")]
+script = SubResource("GDScript_j4dpw")
+window_driver = NodePath("../../ExampleTextWindowDriver")
+sequence = ExtResource("8_he4ko")
+
+[node name="ButtonPole2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -7)
+mesh = SubResource("CylinderMesh_w5u3s")
+
+[node name="Panel" type="MeshInstance3D" parent="ButtonPole2"]
+transform = Transform3D(1, 0, 0, 0, 0.920668, 0.390346, 0, -0.390346, 0.920668, 0, 0.5, 0.113143)
+mesh = SubResource("BoxMesh_fya3k")
+
+[node name="Button" type="MeshInstance3D" parent="ButtonPole2/Panel"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.045)
+material_override = SubResource("StandardMaterial3D_kpapb")
+mesh = SubResource("CylinderMesh_ysi8e")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ButtonPole2/Panel/Button"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ButtonPole2/Panel/Button/StaticBody3D"]
+shape = SubResource("SphereShape3D_ekcyk")
+
+[node name="Interactable" type="Node" parent="ButtonPole2/Panel/Button/StaticBody3D"]
+script = ExtResource("7_cwh2s")
+
+[node name="Label3D" type="Label3D" parent="ButtonPole2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+text = "Complex
+Dialog"
+
+[node name="ScaleLogic" type="Node" parent="ButtonPole2" node_paths=PackedStringArray("button")]
+script = SubResource("GDScript_m4p2b")
+button = NodePath("../Panel/Button")
+
+[node name="StartDialog" type="Node" parent="ButtonPole2" node_paths=PackedStringArray("window_driver")]
+script = SubResource("GDScript_j4dpw")
+window_driver = NodePath("../../ExampleTextWindowDriver")
+sequence = ExtResource("9_vej7i")
+
+[connection signal="hover_changed" from="ButtonPole/Panel/Button/StaticBody3D/Interactable" to="ButtonPole/ScaleLogic" method="_on_interactable_hover_changed"]
+[connection signal="interact_started" from="ButtonPole/Panel/Button/StaticBody3D/Interactable" to="ButtonPole/StartDialog" method="_on_interactable_interact_started"]
+[connection signal="hover_changed" from="ButtonPole2/Panel/Button/StaticBody3D/Interactable" to="ButtonPole2/ScaleLogic" method="_on_interactable_hover_changed"]
+[connection signal="interact_started" from="ButtonPole2/Panel/Button/StaticBody3D/Interactable" to="ButtonPole2/StartDialog" method="_on_interactable_interact_started"]

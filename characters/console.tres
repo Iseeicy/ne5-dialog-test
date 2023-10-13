@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CharacterDefinition" load_steps=2 format=3 uid="uid://bde5f5tlsw7st"]
+
+[ext_resource type="Script" path="res://addons/netengine5/net.bobbo.character/character_definition.gd" id="1_aumvs"]
+
+[resource]
+script = ExtResource("1_aumvs")
+name = "Console"
