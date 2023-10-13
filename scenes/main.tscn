@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://c7gu2pm1vmanm"]
 
 [ext_resource type="PackedScene" uid="uid://ghb87k7v67ts" path="res://addons/netengine5/net.bobbo.text-reader/examples/text_reader_label.tscn" id="1_7hbnr"]
-[ext_resource type="Script" path="res://test_text_reader.gd" id="3_vi2nk"]
+[ext_resource type="Script" path="res://scripts/test_text_reader.gd" id="3_vi2nk"]
 [ext_resource type="Script" path="res://addons/netengine5/net.bobbo.text-reader/text_reader_settings.gd" id="4_1ysar"]
 [ext_resource type="Resource" uid="uid://718c4m0voxmk" path="res://addons/netengine5/net.bobbo.text-reader/sounds/marvi/marvi.tres" id="5_wmpt0"]
 
